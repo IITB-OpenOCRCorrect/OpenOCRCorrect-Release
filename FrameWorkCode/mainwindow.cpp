@@ -140,8 +140,12 @@ bool fileFlag = 0;
 QTime myTimer;
 int secs;
 void MainWindow::on_actionLoad_Next_Page_triggered()
-{   if(mFilename.size()>0){
-        //on_actionSave_triggered();
+{   
+	bool ok = false;
+	int btn = QMessageBox::question(this, "Save?", "Do you want to save this file?", QMessageBox::StandardButton::Ok, QMessageBox::StandardButton::No);
+	if (btn == QMessageBox::StandardButton::Ok) 
+		on_actionSave_triggered();
+	
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
@@ -185,9 +189,6 @@ void MainWindow::on_actionLoad_Next_Page_triggered()
 
 
 
-void MainWindow::on_actionLoad_Prev_Page_triggered()
-{   if(mFilename.size() >0 ){
-        //on_actionSave_triggered();
 
 void MainWindow::on_actionLoad_Prev_Page_triggered()
 {
