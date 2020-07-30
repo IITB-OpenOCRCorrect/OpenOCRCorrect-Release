@@ -140,7 +140,7 @@ QTime myTimer;
 int secs;
 void MainWindow::on_actionLoad_Next_Page_triggered()
 {   if(mFilename.size()>0){
-        on_actionSave_triggered();
+        //on_actionSave_triggered();
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
@@ -187,7 +187,7 @@ void MainWindow::on_actionLoad_Next_Page_triggered()
 
 void MainWindow::on_actionLoad_Prev_Page_triggered()
 {   if(mFilename.size() >0 ){
-        on_actionSave_triggered();
+        //on_actionSave_triggered();
 
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
