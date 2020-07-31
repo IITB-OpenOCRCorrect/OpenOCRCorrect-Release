@@ -1116,9 +1116,7 @@ void MainWindow::on_actionLoadData_triggered()
         qDebug() << ConfPmap.size() << "Confusions Loaded " << endl;
 
         */
-        //FirstFlag = 0;
-        /*on_actionLoad_Next_Page_triggered();
-        on_actionLoad_Prev_Page_triggered();*/
+			FirstFlag = 0;
 			ui->textBrowser->setHtml(str);
         // Plotting Graph for Black and Gray Words
         //cout<< " Loading Graph values and performing Significance test on Word Length" << endl;
