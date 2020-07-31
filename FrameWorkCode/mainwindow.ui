@@ -340,12 +340,15 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionToDevanagari"/>
    <addaction name="separator"/>
    <addaction name="actionAllFontProperties"/>
+   <addaction name="separator"/>
    <addaction name="actionBold"/>
    <addaction name="actionUnBold"/>
+   <addaction name="separator"/>
    <addaction name="actionLeftAlign"/>
    <addaction name="actionCentreAlign"/>
    <addaction name="actionRightAlign"/>
    <addaction name="actionJusitfiedAlign"/>
+   <addaction name="separator"/>
    <addaction name="actionFontBlack"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
