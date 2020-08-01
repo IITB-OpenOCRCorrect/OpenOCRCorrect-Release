@@ -3235,12 +3235,26 @@ void MainWindow::updateAverageAccuracies()
 
 void MainWindow::on_viewallcomments_clicked()
 {
+    QString correctorOutput,currentpagetext;
+    QString correctortext = dir2levelup + "/CorrectorOutput/" + currentpagename;
+    if(!correctortext.isEmpty())
+    {
+        QFile sFile(correctortext);
+        if(sFile.open(QFile::ReadOnly | QFile::Text))
+        {
+            QTextStream in(&sFile);
+            in.setCodec("UTF-8");
+            correctorOutput = in.readAll().simplified();
+            sFile.close();
+        }
 
-    map<int, int> wordcount;
+    }
+    //map<int, int> wordcount;
     QString commentFilename = dir2levelup + "/Comments/comments.json";
     QString pagename = currentpagename;
     pagename.replace(".txt", "");
     pagename.replace(".html", "");
+
     int totalcharerr = 0, totalworderr = 0, rating = 0; QString comments = "";
 
     QFile jsonFile(commentFilename);
@@ -3258,6 +3272,38 @@ void MainWindow::on_viewallcomments_clicked()
 
     jsonFile.close();
 
+    QTextDocument doc;
+    doc.setHtml(correctorOutput);
+    correctorOutput = doc.toPlainText().simplified();
+    doc.setHtml(ui->textBrowser->toHtml());
+    currentpagetext = doc.toPlainText().simplified();
+//    qDebug()<<"correctorOutput \n"<<correctorOutput;
+//    qDebug()<<"currentpagetext \n"<<currentpagetext;
+
+    int l1 = correctorOutput.length(), l2 = currentpagetext.length();
+    diff_match_patch dmp;
+
+    auto diffs1 = dmp.diff_main(correctorOutput,currentpagetext);
+    totalcharerr = dmp.diff_levenshtein(diffs1);
+
+    float characc = (float)(l1 - totalcharerr)/(float)l1*100;
+    if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
+    characc = (((float)lround(characc*100))/100);
+
+    auto diffs2 = dmp.diff_linesToChars(correctorOutput, currentpagetext); //LinesToChars modifed for WordstoChar in diff_match_patch.cpp
+    auto lineText1 = diffs2[0].toString();
+    auto lineText2 = diffs2[1].toString();
+    auto lineArray = diffs2[2].toStringList();
+    int totalwords = lineArray.count();
+    auto diffs3 = dmp.diff_main(lineText1, lineText2);
+    totalworderr= dmp.diff_levenshtein(diffs3);
+    dmp.diff_charsToLines(diffs3, lineArray);
+
+    float wordacc = (float)(totalwords - totalworderr)/(float)totalwords*100;
+    wordacc = (((float)lround(wordacc*100))/100);
+
+    /* Using Highlights to Calculate errors
+     *
     auto textcursor1 = ui->textBrowser->textCursor();
     textcursor1.setPosition(0);
     while(!textcursor1.atEnd())
@@ -3282,13 +3328,13 @@ void MainWindow::on_viewallcomments_clicked()
     float wordacc = (float)(openedFileWords - totalworderr)/(float)openedFileWords*100 ;
     wordacc = ((float)lround(wordacc*100))/100;
     characc = ((float)lround(characc*100))/100;
+    */
 
     if(characc>99.0) rating =5;
     else if(characc > 98.0) rating =4;
     else if(characc > 97.0) rating =3;
     else if(characc > 96.0) rating =2;
     else if(characc > 95.0) rating =1;
-
 
     page["comments"] = comments;
     page["charerrors"] = totalcharerr;
