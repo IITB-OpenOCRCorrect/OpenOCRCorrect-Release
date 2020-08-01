@@ -44,6 +44,7 @@ int openedFileChars;
 int openedFileWords;
 bool save_triggered = 0;
 QString dir1levelup,dir2levelup,currentpagename, currentdirname;
+QString initialtexthtml;
 map<QString, QString> filestructure_fw = {{"Inds","CorrectorOutput"},
                                      {"CorrectorOutput","VerifierOutput",},
                                         {"VerifierOutput","VerifierOutput" }
@@ -64,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //QObject::connect(ui->textBrowser,SIGNAL(textChanged()),this,SLOT(textChangedSlot()));
     QString str = "SLP1 Guide:";
     str += "\n";
-    str += "डॉ,, ड़,, ढ़,, अ   - a,, आ/ ा   - A,, इ/ ि   - i,, ई/ ी   - I,, उ/ ु   - u,, ऊ/ ू   - U,, ऋ/ ृ   - f,, ॠ/ ॄ   - F,, ऌ/ ॢ   - x,, ॡ/ \"ॣ\”   - X,, ए/ े   - e,, ऐ/ ै   - E,, ओ/ ो   - o,, औ/ ौ   - O,, ं   - M,, ः   - H,, ँ    - ~,, ऽ   - $,, ॐ   - %,, ज्ञ   - jYa ,, ळ ,, त्र   - tra,, श्र   - Sra,, क्ष्/क्ष   - kz/kza,, द्य्/द्य   - dy/dya,, क्/क   - k/ka,, ख्/ख   - K/Ka,, ग्/ग   - g/ga,, घ्/घ   - G/Ga,, ङ्/ङ   - N/Na,, च्/च   - c/ca,, छ्/छ   - C/Ca,, ज्/ज   - j/ja,, झ्/झ   - J/Ja,, ञ्/ञ   - Y/Ya,, ट्/ट   - w/wa,, ठ्/ठ   - W/Wa,, ड्/ड   - q/qa,, ढ्/ढ   - Q/Qa,, ण्/ण   - R/Ra,, त्/त   - t/ta,, थ्/थ   - T/Ta,, द्/द   - d/da,, ध्/ध   - D/Da,, न्/न   - n/na,, प्/प   - p/pa,, फ्/फ   - P/Pa,, ब्/ब   - b/ba,, भ्/भ   - B/Ba,, म्/म   - m/ma,, य्/य   - y/ya,, र्/र   - r/ra,, ल्/ल   - l/la,, व्/व   - v/va,, श्/श   - S/Sa,, ष्/ष   - z/za,, स्/स   - s/sa,, ह्/ह   - h/ha,, ळ्/ळ   - &/&a,, ऩ्  -%,, फ़्  - ^,, य़्  - L,, ऱ्  - V,,१   - 1,, २   - 2,, ३   - 3,, ४   - 4,, ५   - 5,, ६   - 6,, ७   - 7,, ८   - 8,, ९   - 9,, ०   - 0,, ।   - |,, ॥   - ||";
+    str += "डॉ,, ड़   - xa,, ढ़   -Xa,, अ   - a,, आ/ ा   - A,, इ/ ि   - i,, ई/ ी   - I,, उ/ ु   - u,, ऊ/ ू   - U,, ऋ/ ृ   - f,, ॠ/ ॄ   - F,, ऌ/ ॢ   - x,, ॡ/ \"ॣ\”   - X,, ए/ े   - e,, ऐ/ ै   - E,, ओ/ ो   - o,, औ/ ौ   - O,, ं   - M,, ः   - H,, ँ    - ~,, ऽ   - $,, ॐ   - %,, ज्ञ   - jYa ,, ळ ,, त्र   - tra,, श्र   - Sra,, क्ष्/क्ष   - kz/kza,, द्य्/द्य   - dy/dya,, क्/क   - k/ka,, ख्/ख   - K/Ka,, ग्/ग   - g/ga,, घ्/घ   - G/Ga,, ङ्/ङ   - N/Na,, च्/च   - c/ca,, छ्/छ   - C/Ca,, ज्/ज   - j/ja,, झ्/झ   - J/Ja,, ञ्/ञ   - Y/Ya,, ट्/ट   - w/wa,, ठ्/ठ   - W/Wa,, ड्/ड   - q/qa,, ढ्/ढ   - Q/Qa,, ण्/ण   - R/Ra,, त्/त   - t/ta,, थ्/थ   - T/Ta,, द्/द   - d/da,, ध्/ध   - D/Da,, न्/न   - n/na,, प्/प   - p/pa,, फ्/फ   - P/Pa,, ब्/ब   - b/ba,, भ्/भ   - B/Ba,, म्/म   - m/ma,, य्/य   - y/ya,, र्/र   - r/ra,, ल्/ल   - l/la,, व्/व   - v/va,, श्/श   - S/Sa,, ष्/ष   - z/za,, स्/स   - s/sa,, ह्/ह   - h/ha,, ळ्/ळ   - L/La,, ऩ्  -%,, फ़्  - ^,, य़्  - &,, ऱ्  - V,,१   - 1,, २   - 2,, ३   - 3,, ४   - 4,, ५   - 5,, ६   - 6,, ७   - 7,, ८   - 8,, ९   - 9,, ०   - 0,, ।   - |,, ॥   - ||";
 
     str.replace(",, ", "\n");
    // str.replace(", ","\t");
@@ -138,7 +139,15 @@ bool fileFlag = 0;
 QTime myTimer;
 int secs;
 void MainWindow::on_actionLoad_Next_Page_triggered()
-{   if(mFilename.size()>0){
+{
+    bool ok = false;
+    if(initialtexthtml.compare(ui->textBrowser->toHtml()))
+    {
+        int btn = QMessageBox::question(this, "Save?", "Do you want to save this file?", QMessageBox::StandardButton::Ok, QMessageBox::StandardButton::No);
+        if (btn == QMessageBox::StandardButton::Ok)
+            on_actionSave_triggered();
+    }
+
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
@@ -175,17 +184,23 @@ void MainWindow::on_actionLoad_Next_Page_triggered()
     //cout << localFilename << endl;
     file = QString::fromStdString(localFilename); fileFlag = 1;
     //OPENSPELLFLAG = 1;
-
     on_actionOpen_triggered();
-    fileFlag = 0;
-    }
+    fileFlag = false;
+   }
     //imageOrig.load(localFilename.replace(QString("txt"),QString("jpeg")));
 
-}
+
 
 
 void MainWindow::on_actionLoad_Prev_Page_triggered()
-{   if(mFilename.size() >0 ){
+{
+    bool ok = false;
+    if(initialtexthtml.compare(ui->textBrowser->toHtml()))
+    {
+        int btn = QMessageBox::question(this, "Save?", "Do you want to save this file?", QMessageBox::StandardButton::Ok, QMessageBox::StandardButton::No);
+        if (btn == QMessageBox::StandardButton::Ok)
+            on_actionSave_triggered();
+    }
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
@@ -221,13 +236,9 @@ void MainWindow::on_actionLoad_Prev_Page_triggered()
     file = QString::fromStdString(localFilename); fileFlag = 1;
     //OPENSPELLFLAG = 1;
     prevTRig =1;
-
     on_actionOpen_triggered();
-    fileFlag = 0;
+    fileFlag = false;
     prevTRig =0;
-    }
-
-    //imageOrig.load(localFilename.replace(QString("txt"),QString("jpeg")));
 }
 
 
@@ -460,7 +471,7 @@ void MainWindow::on_actionOpen_triggered()
                 else
                 {
                     //if(sFile1.open(QFile::ReadOnly | QFile::Text))
-                    if(sFile1.open(QFile::ReadOnly)) //Sanoj
+                    if(sFile1.open(QFile::ReadOnly)) //modified
                     {
                         QTextStream in(&sFile);
                         in.setCodec("UTF-8");
@@ -469,20 +480,18 @@ void MainWindow::on_actionOpen_triggered()
                         QString  simplifiedtext = text.simplified();
                         openedFileWords = simplifiedtext.count(" ");
                         sFile.close();
-                        //ui->textBrowser->setPlainText(text);
+
                         string str1 = text.toUtf8().constData();
                         istringstream iss(str1);
-                        string strHtml = "<html><body>"; string line;
+                        string strHtml = "<html><body><div style=\"width: 21cm; height: 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><p>"; string line;
                         while (getline(iss, line)) {
-
-                            strHtml += "<p align=" + alignment+ ">" + line + "</p>";
-                            //strHtml +="<br>"; // To add new line
-
+                            if(line=="\n" | line == "") strHtml+="</p><p>";
+                            else strHtml += line + "<br />";
                        }
-                       strHtml += "</body></html>";
-                       ui->textBrowser->setHtml(QString::fromStdString(strHtml));//Sanoj
-
-
+                       strHtml += "</p></div></body></html>";
+                       QString qstrHtml = QString::fromStdString(strHtml);
+                       qstrHtml.replace("<br /></p>", "</p>");
+                       ui->textBrowser->setHtml(qstrHtml);
 
 
                     } else {
@@ -495,21 +504,23 @@ void MainWindow::on_actionOpen_triggered()
                         QString  simplifiedtext = text.simplified();
                         openedFileWords = simplifiedtext.count(" ");
                         sFile.close();
-                        //ui->textBrowser->setPlainText(text);
+
                         string str1 = text.toUtf8().constData();
                         istringstream iss(str1);
-                        string strHtml = "<html><body>"; string line;
+                        string strHtml = "<html><body><div style=\"width: 21cm; height: 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><p>"; string line;
                         while (getline(iss, line)) {
-
-                            strHtml += "<p>" + line + "</p> ";
-                            //strHtml +="<br>"; // To add new line
-
+                            if(line=="\n" | line == "") strHtml+="</p><p>";
+                            else strHtml += line + "<br />";
                        }
-                       strHtml += "</body></html>";
-                       ui->textBrowser->setHtml(QString::fromStdString(strHtml));//Sanoj
+                       strHtml += "</p></div></body></html>";
+                       QString qstrHtml = QString::fromStdString(strHtml);
+                       qstrHtml.replace("<br /></p>", "</p>");
+                       ui->textBrowser->setHtml(qstrHtml);
+
 
                     }
                 }
+                    initialtexthtml = ui->textBrowser->toHtml();
 
                     // load and show image:
                     setWindowTitle(mFilename);
@@ -1063,7 +1074,9 @@ void MainWindow::on_actionSave_triggered()
                   {
                       QTextStream out(&sFile);
                       out.setCodec("UTF-8");
-                      out << ui->textBrowser->toHtml();//toPlainText()
+                      QString output = ui->textBrowser->toHtml();
+                      output = "<style> body{ width: 21cm; height: 29.7cm; margin: 30mm 45mm 30mm 45mm; } </style>" + output;
+                      out << output;
 
                       sFile.flush();
                       sFile.close();
@@ -2906,8 +2919,8 @@ void MainWindow::on_pushButton_2_clicked() //VERIFER Sanoj
     QTextDocument doc;
     QString t;
 
-    doc.setHtml(qs1);
-    qs1 = doc.toPlainText();
+//    doc.setHtml(qs1);
+//    qs1 = doc.toPlainText();
     t = qs1;  t.replace(" ", "");
     s1 = t.toUtf8().constData();
 
@@ -2922,6 +2935,7 @@ void MainWindow::on_pushButton_2_clicked() //VERIFER Sanoj
     s3 = t.toUtf8().constData();
 
     int l1,l2,l3, DiffOcr_Corrector,DiffCorrector_Verifier,DiffOcr_Verifier; float correctorChangesPerc,verifierChangesPerc,ocrErrorPerc;
+
 
        l1 = s1.length();
        l2 = s2.length();
@@ -2997,8 +3011,8 @@ void MainWindow::on_pushButton_3_clicked() //INTERN NIPUN
     QTextDocument doc;
     QString t;
 
-    doc.setHtml(qs1);
-    qs1 = doc.toPlainText();
+//    doc.setHtml(qs1);
+//    qs1 = doc.toPlainText();
     t = qs1;  t.replace(" ", "");
     s1 = t.toUtf8().constData();
 

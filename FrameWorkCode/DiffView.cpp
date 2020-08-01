@@ -5,15 +5,15 @@ DiffView::DiffView( QString &ocrtext,  QString &interntext,  QString &verifierte
 	: QMainWindow(parent)
 {
 
-    QTextDocument doc;
-    doc.setHtml(interntext);
-    interntext = doc.toPlainText();
+//    QTextDocument doc;
+//    doc.setHtml(interntext);
+//    interntext = doc.toPlainText();
 
-    doc.setHtml(ocrtext);
-    ocrtext = doc.toPlainText();
+//    doc.setHtml(ocrtext);
+//    ocrtext = doc.toPlainText();
 
-    doc.setHtml(verifiertext);
-    verifiertext = doc.toPlainText();
+//    doc.setHtml(verifiertext);
+//    verifiertext = doc.toPlainText();
 
     ui = new Ui::DiffView();
 	ui->setupUi(this);
