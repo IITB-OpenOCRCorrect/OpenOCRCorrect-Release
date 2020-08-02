@@ -641,9 +641,8 @@ string selectedStr;
 //GIVE EVENT TO TEXT BROWZER INSTEAD OF MAINWINDOW
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    on_actionLoadData_triggered();
-
-
+    //on_actionLoadData_triggered();
+if(!FirstFlag){
     ui->textBrowser->cursorForPosition(ev->pos());
 
     int nMilliseconds = myTimer.elapsed();
@@ -783,7 +782,11 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     //cursor.select(QTextCursor::WordUnderCursor);
     vecSugg.clear(); Words1.clear(); Words.clear(); Alligned.clear(); PairSugg.clear();
     } // if right click
-
+ }else{
+     QMenu* popup_menu = ui->textBrowser->createStandardContextMenu();
+    popup_menu->exec(ev->globalPos());
+    popup_menu->close(); popup_menu->clear();
+}
 }// if mouse event
 
 /*
