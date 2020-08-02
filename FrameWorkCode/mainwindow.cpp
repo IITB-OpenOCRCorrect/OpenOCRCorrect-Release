@@ -662,7 +662,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         selectedStr = str1.toUtf8().constData();
 
     }
-    if(ui->textBrowser->textCursor().hasSelection()){
+    if(selectedStr!=""){
     // code to display options on rightclick
     ui->textBrowser->setContextMenuPolicy(Qt::CustomContextMenu);//IMP TO AVOID UNDO ETC AFTER SELECTING A SUGGESTION
     QMenu* popup_menu = ui->textBrowser->createStandardContextMenu();
