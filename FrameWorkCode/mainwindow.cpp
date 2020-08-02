@@ -3217,23 +3217,26 @@ void MainWindow::updateAverageAccuracies()
 
         count++;
     }
-    mainObj["AverageCharAccuracy"] = totalcharacc/count;
-    mainObj["AverageWordAccuracy"] = totalwordacc/count;
-    mainObj["AverageCharErrors"] = totalcharerrors/count;
-    mainObj["AverageWordErrors"] = totalworderrors/count;
-    //mainObj["AverageRating"] = totalrating/count;
+    if(count)
+    {
+	mainObj["AverageCharAccuracy"] = totalcharacc/count;
+	mainObj["AverageWordAccuracy"] = totalwordacc/count;
+	mainObj["AverageCharErrors"] = totalcharerrors/count;
+	mainObj["AverageWordErrors"] = totalworderrors/count;
+	//mainObj["AverageRating"] = totalrating/count;
 
-    csvFile<< ",,,,";
-    csvFile<<" ,"<< "Average Accuracy (Word level),"<<"Average Accuracy (Character-Level)," <<"Average Errors (Word level),"<<"Average Errors (Character-Level),"<<"\n";
-    csvFile <<" " <<"," << totalwordacc/count << "," << totalcharacc/count << "," << totalworderrors/count<< "," << totalcharerrors/count<<"\n";
+	csvFile<< ",,,,";
+	csvFile<<" ,"<< "Average Accuracy (Word level),"<<"Average Accuracy (Character-Level)," <<"Average Errors (Word level),"<<"Average Errors (Character-Level),"<<"\n";
+	csvFile <<" " <<"," << totalwordacc/count << "," << totalcharacc/count << "," << totalworderrors/count<< "," << totalcharerrors/count<<"\n";
 
 
-    QJsonDocument document1(mainObj);
+	QJsonDocument document1(mainObj);
 
-    QFile jsonFile1(commentFilename);
-    jsonFile1.open(QIODevice::WriteOnly);
-    jsonFile1.write(document1.toJson());
-    jsonFile1.close();
+	QFile jsonFile1(commentFilename);
+	jsonFile1.open(QIODevice::WriteOnly);
+	jsonFile1.write(document1.toJson());
+	jsonFile1.close();
+    }
 
 }
 
