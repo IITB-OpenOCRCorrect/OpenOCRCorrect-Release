@@ -1197,7 +1197,7 @@ void MainWindow::on_actionLoadData_triggered()
         // loading Dictionary locally
         string localmFilename1n = localmFilename1.toUtf8().constData();
         localmFilename1n = localmFilename1n.substr(0,localmFilename1n.find("page"));
-
+        QString str = ui->textBrowser->toHtml();
         localmFilename1 = QString::fromStdString(localmFilename1n);
         mFilename1 = localmFilename1;
 
@@ -1234,8 +1234,6 @@ void MainWindow::on_actionLoadData_triggered()
             ui->progressBar->setValue(100);
 
         /*
-
-
         //cout << "More PWords loaded" << PWords.size();
         loadPWordsPatternstoTrie(TPWordsP,PWords);// justsubstrings not patterns exactly // PWordsP,
         localmFilename1.replace("Inds/","CPair");
@@ -1244,10 +1242,8 @@ void MainWindow::on_actionLoadData_triggered()
         loadmaptoTrie(TDict,Dict);
         loadmaptoTrie(TGBook,GBook);
         loadPWordsPatternstoTrie(TGBookP,GBook);
-
         //loadConfusions("1kECPairs",ConfPmap); //printmap(ConfPmap);
         //loadConfusions2("/home/rohit/Exp4/C++QTFINAL_update2/NEW/allperms/WrongAllLeft","/home/rohit/Exp4/C++QTFINAL_update2/NEW/allperms/WrongAllRight",ConfPmap);
-
         // code for loading COnfMap
         /.*localmFilename1.replace("Inds/page-1.txt","WrongAllLeft"); cout << localmFilename1.toUtf8().constData() << endl;
          * loadConfusions("1kECPairs",ConfPmap); //printmap(ConfPmap);
@@ -1259,11 +1255,13 @@ void MainWindow::on_actionLoadData_triggered()
         boost::archive::text_iarchive oarch2(ss2);
         oarch2 >> ConfPmap; ss2.close();
         qDebug() << ConfPmap.size() << "Confusions Loaded " << endl;
-
         */
-        FirstFlag = 0;
-        on_actionLoad_Next_Page_triggered();
-        on_actionLoad_Prev_Page_triggered();
+
+        /*on_actionLoad_Next_Page_triggered();
+        on_actionLoad_Prev_Page_triggered();*/
+
+            FirstFlag = 0;
+            ui->textBrowser->setHtml(str);
 
         // Plotting Graph for Black and Gray Words
         //cout<< " Loading Graph values and performing Significance test on Word Length" << endl;
@@ -1293,7 +1291,6 @@ void MainWindow::on_actionLoadData_triggered()
             localFilename.replace(loc,no.size(),to_string(stoi(no) + 1));
             localmFilename2 = QString::fromStdString(localFilename);
             localmFilename1 = localmFilename2; localmFilename1.replace("Inds","Correct");
-
             double mean, std,error;
             qDebug() << localmFilename1 << " " << localmFilename2 << endl;
             if(findMeanStd(mean, std, error, localmFilename1, localmFilename2,  GBook, PWords)){
@@ -1301,10 +1298,7 @@ void MainWindow::on_actionLoadData_triggered()
             w.push_back(error/10), z.push_back(std); y.push_back(mean); x.push_back(pageno); pageno++;} else break;
             //cout << y.size() << endl;
             cout << mean << " " << std << " " <<error << endl;
-
         }
-
-
         //cout << y.size() << endl;
         // create graph and assign data to it
         ui->widget->setLocale(QLocale(QLocale::English, QLocale::UnitedKingdom)); // period as decimal separator and comma as thousand separator
@@ -1317,13 +1311,10 @@ void MainWindow::on_actionLoadData_triggered()
         ui->widget->addGraph();
         ui->widget->graph(0)->setData(x, y);
         ui->widget->graph(0)->setName("Black/Gray Word Length Mean");
-
-
         ui->widget->addGraph();
         ui->widget->graph(1)->setPen(QPen(Qt::red));
         ui->widget->graph(1)->setName("Black/Gray Word Length Std");
         ui->widget->graph(1)->setData(x, z);
-
         ui->widget->addGraph();
         ui->widget->graph(2)->setPen(QPen(Qt::cyan));
         ui->widget->graph(2)->setName("Black Gray Words Error %age/10");
@@ -1332,11 +1323,9 @@ void MainWindow::on_actionLoadData_triggered()
         ui->widget->xAxis->setLabel("Page No.");
         ui->widget->yAxis->setLabel("Mean/Std/ %Error ");
         // set axes ranges, so we see all data:
-
         ui->widget->xAxis->setRange(1, x.size()+100);
         ui->widget->yAxis->setRange(0, 10);
         ui->widget->replot();
-
         /.*
         while(1){
             string nos = "0123456789";
@@ -1350,8 +1339,6 @@ void MainWindow::on_actionLoadData_triggered()
         string localstr;
         while(ssIPage >> localstr)
         if((GBook[(localstr)] > 0) || (PWords[localstr] > 0)){
-
-
         }*/
         }// if(FirstFlag)
 }
