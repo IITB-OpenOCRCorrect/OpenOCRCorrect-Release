@@ -126,8 +126,9 @@
         </property>
         <property name="font">
          <font>
-          <family>FreeSans</family>
-          <italic>true</italic>
+          <family>Shobhika</family>
+          <pointsize>13</pointsize>
+          <italic>false</italic>
          </font>
         </property>
         <property name="sizeAdjustPolicy">
