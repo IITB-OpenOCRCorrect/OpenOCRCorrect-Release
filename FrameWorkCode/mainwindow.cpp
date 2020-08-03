@@ -930,6 +930,12 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 	else {
 		if ((ev->button() == Qt::RightButton) || (RightclickFlag))
 		{
+			int nMilliseconds = myTimer.elapsed();
+			// do something..
+			secs = nMilliseconds / 1000;
+			int mins = secs / 60;
+			secs = secs - mins * 60;
+			ui->lineEdit->setText(QString::number(mins) + "mins " + QString::number(secs) + " secs elapsed on this page(Right Click to update)");
 			QMenu* popup_menu = ui->textBrowser->createStandardContextMenu();
 			popup_menu->exec(ev->globalPos());
 			popup_menu->close(); popup_menu->clear();
