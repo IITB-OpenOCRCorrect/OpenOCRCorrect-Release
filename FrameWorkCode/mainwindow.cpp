@@ -316,7 +316,7 @@ void MainWindow::on_actionOpen_triggered()
         { //CPair["BApyopetam"] = "BAzyopetam"; CPairRight["BAzyopetam"]++;
             QFile sFile(file);
             //if(sFile.open(QFile::ReadOnly | QFile::Text))
-            if(sFile.open(QFile::ReadOnly)) //Sanoj
+            if(sFile.open(QFile::ReadOnly)) //modified
             {
                 mFilename = file;
 
@@ -483,14 +483,15 @@ void MainWindow::on_actionOpen_triggered()
 
                         string str1 = text.toUtf8().constData();
                         istringstream iss(str1);
-                        string strHtml = "<html><body><div style=\"width: 21cm; height: 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><p>"; string line;
+                        string strHtml = "<html><body><p>"; string line;
                         while (getline(iss, line)) {
                             if(line=="\n" | line == "") strHtml+="</p><p>";
                             else strHtml += line + "<br />";
                        }
-                       strHtml += "</p></div></body></html>";
+                       strHtml += "</p></body></html>";
                        QString qstrHtml = QString::fromStdString(strHtml);
                        qstrHtml.replace("<br /></p>", "</p>");
+
                        ui->textBrowser->setHtml(qstrHtml);
 
 
@@ -553,7 +554,7 @@ void MainWindow::on_actionOpen_triggered()
                     //loadMap(localmFilename.toUtf8().constData(),GPage, "GPage");  localmFilename = mFilename;
                     //loadmaptoTrie(TGPage,GPage);
 
-//                    if (!prevTRig) on_actionSpell_Check_triggered(); //Sanoj
+//                    if (!prevTRig) on_actionSpell_Check_triggered(); //modified
 
                     //OPENSPELLFLAG = 0;
 
@@ -1086,7 +1087,7 @@ void MainWindow::on_actionSave_triggered()
     }else{
 //        QString localFilename = mFilename;
 //        localFilename.replace("Inds","CorrectorOutput");
-//        localFilename.replace("txt","html");//Sanoj
+//        localFilename.replace("txt","html");//modified
 
         QString changefiledir = filestructure_fw[currentdirname];
         QString localFilename = dir2levelup + "/" +changefiledir +"/" + currentpagename;
@@ -2790,63 +2791,57 @@ void MainWindow::on_actionEnglish_triggered()
     HinFlag = 0 , SanFlag = 0;
 }
 
-void MainWindow::on_actionBold_triggered() //Sanoj
+void MainWindow::on_actionBold_triggered() //modified
 {
     QTextCharFormat format;
     format.setFontWeight(QFont::Bold);
     ui->textBrowser->textCursor().mergeCharFormat(format);
 }
 
-void MainWindow::on_actionUnBold_triggered() //Sanoj
+void MainWindow::on_actionUnBold_triggered() //modified
 {
     QTextCharFormat format;
     format.setFontWeight(QFont::Normal);
     ui->textBrowser->textCursor().mergeCharFormat(format);
 }
 
-void MainWindow::on_actionLeftAlign_triggered() //Sanoj
+void MainWindow::on_actionLeftAlign_triggered() //modified
 {
-//    QTextCursor cursor = ui->textBrowser->textCursor();
-//    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-//    QTextBlockFormat textBlockFormat;
-//    textBlockFormat.setAlignment(Qt::AlignLeft);
-//    ui->textBrowser->textCursor().mergeBlockFormat(textBlockFormat);
     ui->textBrowser->setAlignment(Qt::AlignLeft);
 }
 
-void MainWindow::on_actionRightAlign_triggered() //Sanoj
+void MainWindow::on_actionRightAlign_triggered() //modified
 {
-    //    QTextCursor cursor = ui->textBrowser->textCursor();
-    //    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-//    QTextBlockFormat textBlockFormat;
-//    textBlockFormat.setAlignment(Qt::AlignRight);
-//    ui->textBrowser->textCursor().mergeBlockFormat(textBlockFormat);
-        ui->textBrowser->setAlignment(Qt::AlignRight);
+    ui->textBrowser->setAlignment(Qt::AlignRight);
 }
 
-void MainWindow::on_actionCentreAlign_triggered() //Sanoj
+void MainWindow::on_actionCentreAlign_triggered()
 {
-//    QTextCursor cursor = ui->textBrowser->textCursor();
-//    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-//    textBlockFormat.setAlignment(Qt::AlignCenter);
-//    ui->textBrowser->textCursor().mergeBlockFormat(textBlockFormat);
     ui->textBrowser->setAlignment(Qt::AlignCenter);
 }
 void MainWindow::on_actionJusitfiedAlign_triggered()
 {
+    auto cursor = ui->textBrowser->textCursor();
+    auto selected = cursor.selection();
+    cursor.removeSelectedText();
+    QString sel = selected.toHtml();
+    sel.replace("<br />" ," ");
+    sel = "</p><p>" + sel + "</p><p>";
+    auto newfrag = selected.fromHtml(sel);
+    cursor.insertFragment(newfrag);
     ui->textBrowser->setAlignment(Qt::AlignJustify);
 }
 
-void MainWindow::on_actionAllFontProperties_triggered() //Sanoj
+void MainWindow::on_actionAllFontProperties_triggered()
 {
     QFont initialfont = ui->textBrowser->font();
-    initialfont.setPointSize(ui->textBrowser->fontPointSize());
+    auto pointsize = ui->textBrowser->fontPointSize();
+    if(pointsize) initialfont.setPointSize(pointsize);
     bool ok;
     QFont font = QFontDialog::getFont(&ok, initialfont, this);
     if(ok)
     {
         QTextCharFormat font1;
-        //font1.setFontPointSize();
         font1.setFont(font);
         ui->textBrowser->textCursor().mergeCharFormat(font1);
     }
@@ -2858,7 +2853,7 @@ void MainWindow::on_actionFontBlack_triggered()
 }
 
 
-//void MainWindow::on_actionSaveAsODF_triggered()//Sanoj
+//void MainWindow::on_actionSaveAsODF_triggered()//modified
 //{
 //    QString s = ui->textBrowser->toHtml();
 //    QTextDocument *doc = new QTextDocument();
@@ -2872,7 +2867,7 @@ void MainWindow::on_actionFontBlack_triggered()
 
 
 
-void MainWindow::on_pushButton_2_clicked() //VERIFER Sanoj
+void MainWindow::on_pushButton_2_clicked() //Verifier
 {
 
     string s1 = "",s2 = "", s3 = ""; QString qs1="", qs2="",qs3="";
@@ -2973,7 +2968,7 @@ void MainWindow::on_pushButton_2_clicked() //VERIFER Sanoj
 
 
 
-void MainWindow::on_pushButton_3_clicked() //INTERN NIPUN
+void MainWindow::on_pushButton_3_clicked() //Corrector
 {
     string s1 = "",s2 = ""; QString qs1="", qs2="",qs3="";
     file = QFileDialog::getOpenFileName(this,"Open Corrector's Output File");
