@@ -3075,7 +3075,7 @@ void MainWindow::on_actionAccuracyLog_triggered()
        l1 = qs1.length(); l2 = qs2.length(); l3 = qs3.length();
        if(qs1=="" | qs2 == "" | qs3 == "")
        {
-           break;
+           continue;
        }
 
        diff_match_patch dmp;
@@ -3225,7 +3225,7 @@ void MainWindow::on_viewallcomments_clicked()
         }
 
     }
-    //map<int, int> wordcount;
+    map<int, int> wordcount;
     QString commentFilename = dir2levelup + "/Comments/comments.json";
     QString pagename = currentpagename;
     pagename.replace(".txt", "");
@@ -3266,10 +3266,6 @@ void MainWindow::on_viewallcomments_clicked()
         auto diffs1 = dmp.diff_main(correctorOutput,currentpagetext);
         totalcharerr = dmp.diff_levenshtein(diffs1);
 
-        characc = (float)(l1 - totalcharerr)/(float)l1*100;
-        if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
-        characc = (((float)lround(characc*100))/100);
-
         auto diffs2 = dmp.diff_linesToChars(correctorOutput, currentpagetext); //LinesToChars modifed for WordstoChar in diff_match_patch.cpp
         auto lineText1 = diffs2[0].toString();
         auto lineText2 = diffs2[1].toString();
@@ -3278,38 +3274,41 @@ void MainWindow::on_viewallcomments_clicked()
         auto diffs3 = dmp.diff_main(lineText1, lineText2);
         totalworderr= dmp.diff_levenshtein(diffs3);
         dmp.diff_charsToLines(diffs3, lineArray);
-
+    
+    //HIGHLIGHTS FOR Accuracy Calculation
+        auto textcursor1 = ui->textBrowser->textCursor();
+        textcursor1.setPosition(0);
+        while(!textcursor1.atEnd())
+        {
+            int anchor = textcursor1.position();
+            QTextCharFormat format = textcursor1.charFormat();
+            textcursor1.select(QTextCursor::WordUnderCursor);
+            QString wordundercursor = textcursor1.selectedText();
+            int key = textcursor1.selectionStart();
+        
+            if(format.background() == Qt::yellow && anchor>=(key+1))
+            {
+                totalcharerr++;
+                wordcount[key]++;
+            }
+            textcursor1.setPosition(anchor+1);
+            //textcursor1.movePosition(QTextCursor::NextCharacter , QTextCursor::MoveAnchor, 1);
+        }
+        
+        totalworderr += wordcount.size();
+        //    float characc = (float)(openedFileChars - totalcharerr)/(float)openedFileChars*100;
+        //    float wordacc = (float)(openedFileWords - totalworderr)/(float)openedFileWords*100 ;
+        //    wordacc = ((float)lround(wordacc*100))/100;
+        //    characc = ((float)lround(characc*100))/100;
+        
+        characc = (float)(l1 - totalcharerr)/(float)l1*100;
+        if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
+        characc = (((float)lround(characc*100))/100);
+        
         wordacc = (float)(totalwords - totalworderr)/(float)totalwords*100;
         wordacc = (((float)lround(wordacc*100))/100);
+    
     }
-
-    /* Using Highlights to Calculate errors
-     *
-    auto textcursor1 = ui->textBrowser->textCursor();
-    textcursor1.setPosition(0);
-    while(!textcursor1.atEnd())
-    {
-        int anchor = textcursor1.position();
-        QTextCharFormat format = textcursor1.charFormat();
-        textcursor1.select(QTextCursor::WordUnderCursor);
-        QString wordundercursor = textcursor1.selectedText();
-        int key = textcursor1.selectionStart();
-
-        if(format.background() == Qt::yellow && anchor>=(key+1))
-        {
-            totalcharerr++;
-            wordcount[key]++;
-        }
-        textcursor1.setPosition(anchor+1);
-        //textcursor1.movePosition(QTextCursor::NextCharacter , QTextCursor::MoveAnchor, 1);
-    }
-
-    totalworderr = wordcount.size();
-    float characc = (float)(openedFileChars - totalcharerr)/(float)openedFileChars*100;
-    float wordacc = (float)(openedFileWords - totalworderr)/(float)openedFileWords*100 ;
-    wordacc = ((float)lround(wordacc*100))/100;
-    characc = ((float)lround(characc*100))/100;
-    */
 
     if(characc>99.0) rating =5;
     else if(characc > 98.0) rating =4;
