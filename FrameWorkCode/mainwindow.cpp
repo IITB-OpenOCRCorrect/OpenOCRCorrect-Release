@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     str.replace(",, ", "\n");
    // str.replace(", ","\t");
-    ui->textEdit->setFontFamily("Shobhika");
+    ui->textEdit->setFontFamily("Shobhika-Regular");
     ui->textEdit->setText(str);
 
 }
@@ -460,16 +460,18 @@ void MainWindow::on_actionOpen_triggered()
                     istringstream iss(str1);
                     string strHtml = "<html><body><p>"; string line;
                     while (getline(iss, line)) {
-                        if(line=="\n" | line == "" | line == " ") strHtml+="</p><p>";
-                        else strHtml += line + "<br />";
-                   }
+                        if(line=="\r" | line == "\r\n"|line=="\n"| line == " ") strHtml+="</p><p>";
+                        else strHtml += line + "<br/>";
+                    }
                    strHtml += "</p></body></html>";
                    QString qstrHtml = QString::fromStdString(strHtml);
                    qstrHtml.replace("<br /></p>", "</p>");
-
-                   ui->textBrowser->setFontFamily("Shobhika");
-                   ui->textBrowser->setHtml(qstrHtml);
-                   ui->textBrowser->setFontFamily("Shobhika");
+				   QFont font("Shobhika-Regular");
+				   font.setPointSize(14);
+				   ui->textBrowser->setFont(font);
+				   //ui->textBrowser->setFontFamily("Shobhika-Regular");
+				   ui->textBrowser->setHtml(qstrHtml);
+                   ui->textBrowser->setFont(font);
                 }
                 initialtexthtml = ui->textBrowser->toHtml();
 

@@ -54,5 +54,9 @@
     "/home/sanoj/Documents/OpenOCRCorrect-Release/data/Book1Sanskrit/Inds/page-9.txt": {
         "directory": "/home/sanoj/Documents/OpenOCRCorrect-Release/data/Book1Sanskrit/Inds/page-9.txt",
         "seconds": 107
+    },
+    "C:/Git/new-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/Inds/page-1.txt": {
+        "directory": "C:/Git/new-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/Inds/page-1.txt",
+        "seconds": 0
     }
 }
