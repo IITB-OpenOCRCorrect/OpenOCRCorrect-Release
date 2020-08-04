@@ -72,8 +72,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     str.replace(",, ", "\n");
    // str.replace(", ","\t");
-    ui->textEdit->setFontFamily("Shobhika");
+    
+    QFont font("Shobhika-Regular");
+    font.setWeight(12);
+    ui->textEdit->setFont(font);
     ui->textEdit->setText(str);
+    ui->textEdit->setFont(font);;
 
 }
 
