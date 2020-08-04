@@ -189,8 +189,12 @@ private slots:
     void LogHighlights(QString word);
 
 	void on_actionSuperscript_triggered();
+
 	void on_actionSubscript_triggered();
+
     void on_actionInsert_Horizontal_Line_triggered();
+
+    void  savetimelog(map<QString, int> TimeLog);
 
 private:
     Ui::MainWindow *ui;

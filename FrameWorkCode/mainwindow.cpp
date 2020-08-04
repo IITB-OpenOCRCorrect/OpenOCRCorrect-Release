@@ -29,7 +29,7 @@ vector<QString> vs; vector<int> vx,vy,vw,vh,vright;
 map<string, vector<string>> SRules;
 map<string, string> TopConfusions;
 map<string, int> TopConfusionsMask;
-map<string, int> TimeLog;
+map<QString, int> TimeLog;
 QString TimeLogLocation;
 string alignment = "left";
 bool prevTRig = 0;
@@ -65,13 +65,13 @@ MainWindow::MainWindow(QWidget *parent) :
     //QObject::connect(ui->textBrowser,SIGNAL(textChanged()),this,SLOT(textChangedSlot()));
     QString str = "SLP1 Guide:";
     str += "\n";
-    str += "डॉ,, ड़   - xa,, ढ़   -Xa,, अ   - a,, आ/ ा   - A,, इ/ ि   - i,, ई/ ी   - I,, उ/ ु   - u,, ऊ/ ू   - U,, ऋ/ ृ   - f,, ॠ/ ॄ   - F,, ऌ/ ॢ   - x,, ॡ/ \"ॣ\”   - X,, ए/ े   - e,, ऐ/ ै   - E,, ओ/ ो   - o,, औ/ ौ   - O,, ं   - M,, ः   - H,, ँ    - ~,, ऽ   - $,, ॐ   - %,, ज्ञ   - jYa ,, ळ ,, त्र   - tra,, श्र   - Sra,, क्ष्/क्ष   - kz/kza,, द्य्/द्य   - dy/dya,, क्/क   - k/ka,, ख्/ख   - K/Ka,, ग्/ग   - g/ga,, घ्/घ   - G/Ga,, ङ्/ङ   - N/Na,, च्/च   - c/ca,, छ्/छ   - C/Ca,, ज्/ज   - j/ja,, झ्/झ   - J/Ja,, ञ्/ञ   - Y/Ya,, ट्/ट   - w/wa,, ठ्/ठ   - W/Wa,, ड्/ड   - q/qa,, ढ्/ढ   - Q/Qa,, ण्/ण   - R/Ra,, त्/त   - t/ta,, थ्/थ   - T/Ta,, द्/द   - d/da,, ध्/ध   - D/Da,, न्/न   - n/na,, प्/प   - p/pa,, फ्/फ   - P/Pa,, ब्/ब   - b/ba,, भ्/भ   - B/Ba,, म्/म   - m/ma,, य्/य   - y/ya,, र्/र   - r/ra,, ल्/ल   - l/la,, व्/व   - v/va,, श्/श   - S/Sa,, ष्/ष   - z/za,, स्/स   - s/sa,, ह्/ह   - h/ha,, ळ्/ळ   - L/La,, ऩ्  -%,, फ़्  - ^,, य़्  - &,, ऱ्  - V,,१   - 1,, २   - 2,, ३   - 3,, ४   - 4,, ५   - 5,, ६   - 6,, ७   - 7,, ८   - 8,, ९   - 9,, ०   - 0,, ।   - |,, ॥   - ||";
+    str += "डॉ,, ड़  - xa,, ढ़  -Xa,, अ  - a,, आ/ ा  - A,, इ/ ि  - i,, ई/ ी  - I,, उ/ ु  - u,, ऊ/ ू  - U,, ऋ/ ृ  - f,, ॠ/ ॄ  - F,, ऌ/ ॢ  - x,, ॡ/ \"ॣ\”  - X,, ए/ े  - e,, ऐ/ ै  - E,, ओ/ ो  - o,, औ/ ौ  - O,, ं  - M,, ः  - H,, ँ   - ~,, ऽ  - $,, ॐ  - %,, ज्ञ  - jYa ,, ळ ,, त्र  - tra,, श्र  - Sra,, क्ष्/क्ष  - kz/kza,, द्य्/द्य  - dy/dya,, क्/क  - k/ka,, ख्/ख  - K/Ka,, ग्/ग  - g/ga,, घ्/घ  - G/Ga,, ङ्/ङ  - N/Na,, च्/च  - c/ca,, छ्/छ  - C/Ca,, ज्/ज  - j/ja,, झ्/झ  - J/Ja,, ञ्/ञ  - Y/Ya,, ट्/ट  - w/wa,, ठ्/ठ  - W/Wa,, ड्/ड  - q/qa,, ढ्/ढ  - Q/Qa,, ण्/ण  - R/Ra,, त्/त  - t/ta,, थ्/थ  - T/Ta,, द्/द  - d/da,, ध्/ध  - D/Da,, न्/न  - n/na,, प्/प  - p/pa,, फ्/फ  - P/Pa,, ब्/ब  - b/ba,, भ्/भ  - B/Ba,, म्/म  - m/ma,, य्/य  - y/ya,, र्/र  - r/ra,, ल्/ल  - l/la,, व्/व  - v/va,, श्/श  - S/Sa,, ष्/ष  - z/za,, स्/स  - s/sa,, ह्/ह  - h/ha,, ळ्/ळ  - L/La,, ऩ्  -%,, फ़्  - ^,, य़्  - &,, ऱ्  - V,,१  - 1,, २  - 2,, ३  - 3,, ४  - 4,, ५  - 5,, ६  - 6,, ७  - 7,, ८  - 8,, ९  - 9,, ०  - 0,, ।  - |,, ॥  - ||";
 
     str.replace(",, ", "\n");
    // str.replace(", ","\t");
-    ui->textEdit->setText(str);
-    ui->textEdit->selectAll();
     ui->textEdit->setFontFamily("Shobhika");
+    ui->textEdit->setText(str);
+
 }
 
 MainWindow::~MainWindow()
@@ -140,6 +140,25 @@ QString file = "";
 bool fileFlag = 0;
 QTime myTimer;
 int secs;
+
+void MainWindow::savetimelog(map<QString, int> TimeLog)
+{
+    QJsonObject mainObj;
+    QJsonObject page;
+    QJsonDocument document;
+    for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
+    {
+        page["directory"] = i->first;
+        page["seconds"] = i->second;
+        mainObj.insert(i->first, page);
+    }
+    document.setObject(mainObj);
+
+    QFile jsonFile(TimeLogLocation);
+    jsonFile.open(QIODevice::WriteOnly);
+    jsonFile.write(document.toJson());
+}
+
 void MainWindow::on_actionLoad_Next_Page_triggered()
 {
     bool ok = false;
@@ -155,23 +174,24 @@ void MainWindow::on_actionLoad_Next_Page_triggered()
     secs = nMilliseconds/1000;
 //    int mins = secs/60;
 //    secs = secs - mins*60;
-    TimeLog[localFilename] += secs;
-    QString TimeLogLoc = TimeLogLocation;
-    QFile sFile(TimeLogLoc);
-        if(sFile.open(QFile::WriteOnly))
-      {
-          QString timelogstring = "";
-          QTextStream out(&sFile);
+    TimeLog[mFilename] += secs;
+    savetimelog(TimeLog);
 
-          for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
-          {
-              timelogstring+= QString::fromStdString(i->first) + " ";
-              timelogstring+= QString::fromStdString(to_string(i->second)) + "\n";
-          }
-          out << timelogstring;
-          sFile.flush();
-          sFile.close();
-      }
+//    QFile sFile(TimeLogLocation);
+//        if(sFile.open(QFile::WriteOnly))
+//      {
+//          QString timelogstring = "";
+//          QTextStream out(&sFile);
+
+//          for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
+//          {
+//              timelogstring+= QString::fromStdString(i->first) + " ";
+//              timelogstring+= QString::fromStdString(to_string(i->second)) + "\n";
+//          }
+//          out << timelogstring;
+//          sFile.flush();
+//          sFile.close();
+//      }
     string nos = "0123456789";
     size_t loc = localFilename.find(".txt");
     if(loc == string::npos)
@@ -208,22 +228,25 @@ void MainWindow::on_actionLoad_Prev_Page_triggered()
     secs = nMilliseconds/1000;
 //    int mins = secs/60;
 //    secs = secs - mins*60;
-    TimeLog[localFilename] += secs;
-    QString TimeLogLoc = TimeLogLocation;
-    QFile sFile(TimeLogLoc);
-        if(sFile.open(QFile::WriteOnly))
-      {
-          QString timelogstring = "";
-          QTextStream out(&sFile);
-          for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
-          {
-              timelogstring+= QString::fromStdString(i->first) + " ";
-              timelogstring+= QString::fromStdString(to_string(i->second)) + "\n";
-          }
-          out << timelogstring;
-          sFile.flush();
-          sFile.close();
-        }
+    TimeLog[mFilename] += secs;
+
+    savetimelog(TimeLog);
+
+//    QFile sFile(TimeLogLocation);
+//        if(sFile.open(QFile::WriteOnly))
+//      {
+//          QString timelogstring = "";
+//          QTextStream out(&sFile);
+
+//          for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
+//          {
+//              timelogstring+= QString::fromStdString(i->first) + " ";
+//              timelogstring+= QString::fromStdString(to_string(i->second)) + "\n";
+//          }
+//          out << timelogstring;
+//          sFile.flush();
+//          sFile.close();
+//      }
     string nos = "0123456789";
     size_t loc = localFilename.find(".txt");
     if(loc == string::npos)
@@ -297,27 +320,13 @@ void MainWindow::on_actionOpen_triggered()
 
     if(!fileFlag)
     {
-        string key;
-        int value;
-        ifstream timefile(TimeLogLocation.toUtf8().constData());
-        string fileline;
-        while(getline(timefile, fileline))
-        {
-            istringstream words(fileline);
-            words>>key>>value;
-            TimeLog[key] = value;
-        }
-        timefile.close();
-
-
         file = QFileDialog::getOpenFileName(this,"Open a File");
     }
-       //qDebug() <<"here" << file <<endl;
         QString localmFilename1;
         if(!file.isEmpty())
         { //CPair["BApyopetam"] = "BAzyopetam"; CPairRight["BAzyopetam"]++;
             QFile sFile(file);
-            //if(sFile.open(QFile::ReadOnly | QFile::Text))
+
             if(sFile.open(QFile::ReadOnly)) //modified
             {
                 mFilename = file;
@@ -330,10 +339,30 @@ void MainWindow::on_actionOpen_triggered()
                 int pos2 = dir1levelup.lastIndexOf("/");
                 dir2levelup = dir1levelup.mid(0,pos2);
                 currentdirname = dir1levelup.mid(pos2+1,dir1levelup.length()-pos2);
-                TimeLogLocation = dir2levelup + "/Comments/timelog.txt";
 
                 localmFilename1 = mFilename;
                 string localFilename =  localmFilename1.toUtf8().constData();
+
+                TimeLogLocation = dir2levelup + "/Comments/Timelog.json";
+                if(!fileFlag)
+                {
+                    QFile jsonFile(TimeLogLocation);
+                    jsonFile.open(QIODevice::ReadOnly | QIODevice::Text);
+                    QByteArray data = jsonFile.readAll();
+
+                    QJsonParseError errorPtr;
+                    QJsonDocument document = QJsonDocument::fromJson(data, &errorPtr);
+                    QJsonObject mainObj = document.object();
+                    jsonFile.close();
+
+                    foreach(const QJsonValue &val, mainObj)
+                    {
+                        QString directory = val.toObject().value("directory").toString();
+                        int seconds    = val.toObject().value("seconds").toInt();
+                        TimeLog[directory] = seconds;
+                    }
+                }
+
 
                 // load vIPage and vCPage for calculating WER if corresponding CPage exist
                 /*vIPage.clear(); vCPage.clear();
@@ -447,7 +476,7 @@ void MainWindow::on_actionOpen_triggered()
                 myTimer.start();
                 //int nMilliseconds = myTimer.elapsed();
                 // do something..
-                secs = TimeLog[localFilename];
+                secs = TimeLog[mFilename];
                 int mins = secs/60;
                 secs = secs - mins*60;
                 ui->lineEdit->setText(QString::number(mins) + "mins " + QString::number(secs) + " secs elapsed on this page(Right Click to update)");
@@ -492,8 +521,8 @@ void MainWindow::on_actionOpen_triggered()
                    QString qstrHtml = QString::fromStdString(strHtml);
                    qstrHtml.replace("<br /></p>", "</p>");
 
+                   ui->textBrowser->setFontFamily("Shobhika");
                    ui->textBrowser->setHtml(qstrHtml);
-                   ui->textBrowser->selectAll();
                    ui->textBrowser->setFontFamily("Shobhika");
                 }
                     initialtexthtml = ui->textBrowser->toHtml();
@@ -703,10 +732,9 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 	//on_actionLoadData_triggered();
 	if (!FirstFlag) {
 		ui->textBrowser->cursorForPosition(ev->pos());
-
-		int nMilliseconds = myTimer.elapsed();
-		// do something..
-		secs = nMilliseconds / 1000;
+        secs = TimeLog[mFilename];
+        int nMilliseconds = myTimer.elapsed();
+        secs += nMilliseconds / 1000;
 		int mins = secs / 60;
 		secs = secs - mins * 60;
 		ui->lineEdit->setText(QString::number(mins) + "mins " + QString::number(secs) + " secs elapsed on this page(Right Click to update)");
@@ -853,13 +881,13 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 	else {
 		if ((ev->button() == Qt::RightButton) || (RightclickFlag))
 		{
-			int nMilliseconds = myTimer.elapsed();
-			// do something..
-			secs = nMilliseconds / 1000;
-			int mins = secs / 60;
-			secs = secs - mins * 60;
-			ui->lineEdit->setText(QString::number(mins) + "mins " + QString::number(secs) + " secs elapsed on this page(Right Click to update)");
-			QMenu* popup_menu = ui->textBrowser->createStandardContextMenu();
+            secs = TimeLog[mFilename];
+            int nMilliseconds = myTimer.elapsed();
+            secs += nMilliseconds / 1000;
+            int mins = secs / 60;
+            secs = secs - mins * 60;
+            ui->lineEdit->setText(QString::number(mins) + "mins " + QString::number(secs) + " secs elapsed on this page(Right Click to update)");
+            QMenu* popup_menu = ui->textBrowser->createStandardContextMenu();
 			popup_menu->exec(ev->globalPos());
 			popup_menu->close(); popup_menu->clear();
 		}
@@ -996,6 +1024,7 @@ void MainWindow::on_actionSave_triggered()
     save_triggered = 1;
     on_viewallcomments_clicked();
     updateAverageAccuracies();
+    savetimelog(TimeLog);
 
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
@@ -1426,10 +1455,12 @@ void MainWindow::on_actionSugg_triggered()
 void MainWindow::on_actionToSlp1_triggered()
 {
 
+        secs = TimeLog[mFilename];
         int nMilliseconds = myTimer.elapsed();
-        secs = nMilliseconds/1000;
-        int mins = secs/60;
-        secs = secs - mins*60;
+        // do something..
+        secs += nMilliseconds / 1000;
+        int mins = secs / 60;
+        secs = secs - mins * 60;
         ui->lineEdit->setText(QString::number(mins) + "mins " + QString::number(secs) + " secs elapsed on this page(Right Click to update)");
         QTextCursor cursor = ui->textBrowser->textCursor();
         //cursor.select(QTextCursor::WordUnderCursor);
@@ -3036,6 +3067,10 @@ void MainWindow::on_actionAccuracyLog_triggered()
        int l1,l2,l3, DiffOcr_Corrector,DiffCorrector_Verifier,DiffOcr_Verifier; float correctorChangesPerc,verifierChangesPerc,ocrErrorPerc;
 
        l1 = qs1.length(); l2 = qs2.length(); l3 = qs3.length();
+       if(qs1=="" | qs2 == "" | qs3 == "")
+       {
+           break;
+       }
 
        diff_match_patch dmp;
 
@@ -3190,7 +3225,7 @@ void MainWindow::on_viewallcomments_clicked()
     pagename.replace(".txt", "");
     pagename.replace(".html", "");
 
-    int totalcharerr = 0, totalworderr = 0, rating = 0; QString comments = "";
+    int totalcharerr = 0, totalworderr = 0, rating = 0; QString comments = ""; float wordacc=100, characc=100;
 
     QFile jsonFile(commentFilename);
     jsonFile.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -3204,38 +3239,43 @@ void MainWindow::on_viewallcomments_clicked()
 
     comments = page.value("comments").toString();
     rating = page.value("rating").toInt();
+    totalcharerr = page.value("charerrors").toInt();
+    totalworderr = page.value("worderrors").toInt();
+    characc = page.value("characcuracy").toInt();
+    wordacc = page.value("wordaccuracy").toInt();
+    pagename = page.value("pagename").toString();
 
     jsonFile.close();
 
-    QTextDocument doc;
-    doc.setHtml(correctorOutput);
-    correctorOutput = doc.toPlainText().simplified();
-    doc.setHtml(ui->textBrowser->toHtml());
-    currentpagetext = doc.toPlainText().simplified();
-//    qDebug()<<"correctorOutput \n"<<correctorOutput;
-//    qDebug()<<"currentpagetext \n"<<currentpagetext;
+    if(dir1levelup!= (dir2levelup + "/Inds")) //if Inds file-> do not create new accuracies just display previous accuracy
+    {
+        QTextDocument doc;
+        doc.setHtml(correctorOutput);
+        correctorOutput = doc.toPlainText().simplified();
+        currentpagetext = ui->textBrowser->toPlainText().simplified();
 
-    int l1 = correctorOutput.length(), l2 = currentpagetext.length();
-    diff_match_patch dmp;
+        int l1 = correctorOutput.length(), l2 = currentpagetext.length();
+        diff_match_patch dmp;
 
-    auto diffs1 = dmp.diff_main(correctorOutput,currentpagetext);
-    totalcharerr = dmp.diff_levenshtein(diffs1);
+        auto diffs1 = dmp.diff_main(correctorOutput,currentpagetext);
+        totalcharerr = dmp.diff_levenshtein(diffs1);
 
-    float characc = (float)(l1 - totalcharerr)/(float)l1*100;
-    if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
-    characc = (((float)lround(characc*100))/100);
+        characc = (float)(l1 - totalcharerr)/(float)l1*100;
+        if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
+        characc = (((float)lround(characc*100))/100);
 
-    auto diffs2 = dmp.diff_linesToChars(correctorOutput, currentpagetext); //LinesToChars modifed for WordstoChar in diff_match_patch.cpp
-    auto lineText1 = diffs2[0].toString();
-    auto lineText2 = diffs2[1].toString();
-    auto lineArray = diffs2[2].toStringList();
-    int totalwords = lineArray.count();
-    auto diffs3 = dmp.diff_main(lineText1, lineText2);
-    totalworderr= dmp.diff_levenshtein(diffs3);
-    dmp.diff_charsToLines(diffs3, lineArray);
+        auto diffs2 = dmp.diff_linesToChars(correctorOutput, currentpagetext); //LinesToChars modifed for WordstoChar in diff_match_patch.cpp
+        auto lineText1 = diffs2[0].toString();
+        auto lineText2 = diffs2[1].toString();
+        auto lineArray = diffs2[2].toStringList();
+        int totalwords = lineArray.count();
+        auto diffs3 = dmp.diff_main(lineText1, lineText2);
+        totalworderr= dmp.diff_levenshtein(diffs3);
+        dmp.diff_charsToLines(diffs3, lineArray);
 
-    float wordacc = (float)(totalwords - totalworderr)/(float)totalwords*100;
-    wordacc = (((float)lround(wordacc*100))/100);
+        wordacc = (float)(totalwords - totalworderr)/(float)totalwords*100;
+        wordacc = (((float)lround(wordacc*100))/100);
+    }
 
     /* Using Highlights to Calculate errors
      *
