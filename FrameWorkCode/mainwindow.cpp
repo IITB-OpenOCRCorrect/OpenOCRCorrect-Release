@@ -460,16 +460,20 @@ void MainWindow::on_actionOpen_triggered()
                     istringstream iss(str1);
                     string strHtml = "<html><body><p>"; string line;
                     while (getline(iss, line)) {
-                        if(line=="\n" | line == "" | line == " ") strHtml+="</p><p>";
+                        QString line1 = QString::fromStdString(line);
+                        if(line=="\r" | line == "\n" | line == "\r\n" ) strHtml+="</p><p>";
                         else strHtml += line + "<br />";
                    }
                    strHtml += "</p></body></html>";
                    QString qstrHtml = QString::fromStdString(strHtml);
                    qstrHtml.replace("<br /></p>", "</p>");
 
-                   ui->textBrowser->setFontFamily("Shobhika");
+                   QFont font("Shobhika-Regular");
+                   font.setWeight(14);
+                   ui->textBrowser->setFont(font);
                    ui->textBrowser->setHtml(qstrHtml);
-                   ui->textBrowser->setFontFamily("Shobhika");
+                   ui->textBrowser->setFont(font);
+
                 }
                 initialtexthtml = ui->textBrowser->toHtml();
 
