@@ -72,9 +72,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     str.replace(",, ", "\n");
    // str.replace(", ","\t");
-    ui->textEdit->setFontFamily("Shobhika-Regular");
-    ui->textEdit->setText(str);
-
+	QFont font("Shobhika-Regular");
+	font.setWeight(14);
+	font.setPointSize(12);
+    ui->textEdit->setFont(font);
+	ui->textEdit->setPlainText(str);
 }
 
 MainWindow::~MainWindow()
@@ -460,7 +462,12 @@ void MainWindow::on_actionOpen_triggered()
                     istringstream iss(str1);
                     string strHtml = "<html><body><p>"; string line;
                     while (getline(iss, line)) {
-                        if(line=="\r" | line == "\r\n"|line=="\n"| line == " ") strHtml+="</p><p>";
+						QString s;
+						s = s.fromStdString(line);
+						
+						if (s.contains("\r") | line == "\r\n" | line == "\n" | line == " ") { 
+							strHtml += line+"</p><p>"; 
+						}
                         else strHtml += line + "<br/>";
                     }
                    strHtml += "</p></body></html>";
