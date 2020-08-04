@@ -192,6 +192,8 @@ private slots:
 
     void on_actionInsert_Horizontal_Line_triggered();
 
+    void savetimelog();
+
 private:
     Ui::MainWindow *ui;
 	QGraphicsScene * graphic=nullptr;
