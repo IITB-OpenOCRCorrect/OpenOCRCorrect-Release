@@ -1,0 +1,17 @@
+{
+    "AverageCharAccuracy": 0,
+    "AverageCharErrors": 0,
+    "AverageWordAccuracy": 0,
+    "AverageWordErrors": 0,
+    "pages": {
+        "": {
+            "characcuracy": 0,
+            "charerrors": 0,
+            "comments": "",
+            "pagename": "",
+            "rating": 0,
+            "wordaccuracy": 0,
+            "worderrors": 0
+        }
+    }
+}
