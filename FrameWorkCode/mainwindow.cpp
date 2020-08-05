@@ -166,6 +166,18 @@ void MainWindow::savetimelog()
     jsonFile.write(document.toJson());
 }
 
+void MainWindow::on_actionZoom_In_triggered()
+{
+	if (z)
+		z->gentle_zoom(1.1);
+}
+
+void MainWindow::on_actionZoom_Out_triggered()
+{
+	if (z)
+		z->gentle_zoom(0.9);
+}
+
 void MainWindow::on_actionLoad_Next_Page_triggered()
 {
     bool ok = false;

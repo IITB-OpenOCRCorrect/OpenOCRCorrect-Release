@@ -87,6 +87,8 @@ public:
     QAction *actionSuperscript;
     QAction *actionSubscript;
     QAction *actionInsert_Horizontal_Line;
+    QAction *actionZoom_In;
+    QAction *actionZoom_Out;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_4;
@@ -280,6 +282,16 @@ public:
         actionSubscript->setObjectName(QString::fromUtf8("actionSubscript"));
         actionInsert_Horizontal_Line = new QAction(MainWindow);
         actionInsert_Horizontal_Line->setObjectName(QString::fromUtf8("actionInsert_Horizontal_Line"));
+        actionZoom_In = new QAction(MainWindow);
+        actionZoom_In->setObjectName(QString::fromUtf8("actionZoom_In"));
+        QIcon icon16;
+        icon16.addFile(QString::fromUtf8(":/Images/Zoom-In-icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionZoom_In->setIcon(icon16);
+        actionZoom_Out = new QAction(MainWindow);
+        actionZoom_Out->setObjectName(QString::fromUtf8("actionZoom_Out"));
+        QIcon icon17;
+        icon17.addFile(QString::fromUtf8(":/Images/Zoom-Out-icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionZoom_Out->setIcon(icon17);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
@@ -398,7 +410,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1296, 22));
+        menuBar->setGeometry(QRect(0, 0, 1296, 21));
         menuOCR_Correction_Window = new QMenu(menuBar);
         menuOCR_Correction_Window->setObjectName(QString::fromUtf8("menuOCR_Correction_Window"));
         menuCreateReports = new QMenu(menuBar);
@@ -513,6 +525,8 @@ public:
         mainToolBar->addAction(actionJusitfiedAlign);
         mainToolBar->addSeparator();
         mainToolBar->addAction(actionFontBlack);
+        mainToolBar->addAction(actionZoom_In);
+        mainToolBar->addAction(actionZoom_Out);
 
         retranslateUi(MainWindow);
 
@@ -624,6 +638,8 @@ public:
         actionSuperscript->setText(QCoreApplication::translate("MainWindow", "Superscript", nullptr));
         actionSubscript->setText(QCoreApplication::translate("MainWindow", "Subscript", nullptr));
         actionInsert_Horizontal_Line->setText(QCoreApplication::translate("MainWindow", "Insert Horizontal Line", nullptr));
+        actionZoom_In->setText(QCoreApplication::translate("MainWindow", "Zoom In", nullptr));
+        actionZoom_Out->setText(QCoreApplication::translate("MainWindow", "Zoom Out", nullptr));
 #if QT_CONFIG(tooltip)
         pushButton_3->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Open any file in CorrectorOutput Folder to view Changes made.</span></p></body></html>", nullptr));
 #endif // QT_CONFIG(tooltip)

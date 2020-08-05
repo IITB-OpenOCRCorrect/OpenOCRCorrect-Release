@@ -193,6 +193,8 @@ private slots:
     void on_actionInsert_Horizontal_Line_triggered();
 
     void savetimelog();
+	void on_actionZoom_In_triggered();
+	void on_actionZoom_Out_triggered();
 
 private:
     Ui::MainWindow *ui;
