@@ -2891,9 +2891,7 @@ void MainWindow::on_pushButton_2_clicked() //Verifier
             {
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
-                QString t = in.readAll();
-                t= t.replace(" \n","\n");
-                qs2=t;
+                qs2 = in.readAll();
                 sFile.close();
             }
 
@@ -2905,63 +2903,60 @@ void MainWindow::on_pushButton_2_clicked() //Verifier
             {
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
-                QString t = in.readAll();
-                t= t.replace(" \n","\n");
-                qs3=t;
+                qs3 = in.readAll();
                 sFile.close();
             }
 
         }
         QTextDocument doc;
-        QString t;
-
-    //    doc.setHtml(qs1);
-    //    qs1 = doc.toPlainText();
-        t = qs1;  t.replace(" ", "");
-        s1 = t.toUtf8().constData();
 
         doc.setHtml(qs2);
-        qs2 = doc.toPlainText();
-        t = qs2;  t.replace(" ", "");
-        s2 = t.toUtf8().constData();
+        qs2 = doc.toPlainText().replace(" \n","\n");
 
         doc.setHtml(qs3);
-        qs3 = doc.toPlainText();
-        t = qs3;  t.replace(" ", "");
-        s3 = t.toUtf8().constData();
+        qs3 = doc.toPlainText().replace(" \n","\n");
 
         int l1,l2,l3, DiffOcr_Corrector,DiffCorrector_Verifier,DiffOcr_Verifier; float correctorChangesPerc,verifierChangesPerc,ocrErrorPerc;
 
+        l1 = qs1.length(); l2 = qs2.length(); l3 = qs3.length();
+        if(qs1=="" | qs2 == "" | qs3 == "")
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Error in displaying one of the files. One of the files is empty");
+            msgBox.exec();
+        }
+        else
+        {
+            diff_match_patch dmp;
 
-           l1 = s1.length();
-           l2 = s2.length();
-           l3 = s3.length();
-           DiffOcr_Corrector = editDist(s1,s2);
-           correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
-           if(correctorChangesPerc<0) correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l2)*100;
+            auto diffs1 = dmp.diff_main(qs1,qs2);
+            DiffOcr_Corrector = dmp.diff_levenshtein(diffs1);
+            correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
+            if(correctorChangesPerc<0) correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l2)*100;
+            correctorChangesPerc = (((float)lround(correctorChangesPerc*100))/100);
 
-           DiffCorrector_Verifier = editDist(s2,s3);
-           verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l2)*100;
-           if(verifierChangesPerc<0) verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l3)*100;
+            auto diffs2 = dmp.diff_main(qs2,qs3);
+            DiffCorrector_Verifier = dmp.diff_levenshtein(diffs2);
+            verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l2)*100;
+            if(verifierChangesPerc<0) verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l3)*100;
+            verifierChangesPerc = (((float)lround(verifierChangesPerc*100))/100);
 
-           DiffOcr_Verifier = editDist(s1,s3);
-           ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l1)*100;
-           if(ocrErrorPerc<0) ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l3)*100;
-           float ocrErrorAcc = 100 - ocrErrorPerc;
+            auto diffs3 = dmp.diff_main(qs1,qs3);
+            DiffOcr_Verifier = dmp.diff_levenshtein(diffs3);
+            ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l1)*100;
+            if(ocrErrorPerc<0) ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l3)*100;
+            float ocrAcc = 100 - (((float)lround(ocrErrorPerc*100))/100);
 
-           QString qcorrectorChangesPerc = QString::number(((float)lround(correctorChangesPerc*100))/100);
-           QString qverifierChangesPerc = QString::number(((float)lround(verifierChangesPerc*100))/100);
-           QString qocrErrorAcc = QString::number(((float)lround(ocrErrorAcc*100))/100);
-
-        DiffView *dv = new DiffView(qs1,qs2,qs3,qcorrectorChangesPerc,qverifierChangesPerc,qocrErrorAcc);
-        dv->show();
+            DiffView *dv = new DiffView(qs1,qs2,qs3,QString::number(correctorChangesPerc),QString::number(verifierChangesPerc),QString::number(ocrAcc));
+            dv->show();
+        }
     }
 }
 
 
 void MainWindow::on_pushButton_3_clicked() //Corrector
 {
-    string s1 = "",s2 = ""; QString qs1="", qs2="",qs3="";
+    QString qs1="", qs2="";
     file = QFileDialog::getOpenFileName(this,"Open Corrector's Output File");
     if(!file.isEmpty())
     {
@@ -2985,8 +2980,7 @@ void MainWindow::on_pushButton_3_clicked() //Corrector
             {
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
-                QString t = in.readAll();
-                t= t.replace(" \n","\n");
+                QString t = in.readAll().replace(" \n","\n");
                 qs1=t;
                 sFile.close();
             }
@@ -2999,36 +2993,35 @@ void MainWindow::on_pushButton_3_clicked() //Corrector
             {
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
-                QString t = in.readAll();
-                t= t.replace(" \n","\n");
-                qs2=t;
+                qs2 = in.readAll();
                 sFile.close();
             }
 
         }
         QTextDocument doc;
-        QString t;
-
-    //    doc.setHtml(qs1);
-    //    qs1 = doc.toPlainText();
-        t = qs1;  t.replace(" ", "");
-        s1 = t.toUtf8().constData();
-
         doc.setHtml(qs2);
-        qs2 = doc.toPlainText();
-        t = qs2; t.replace(" ", "");
-        s2 = t.toUtf8().constData();
+        qs2 = doc.toPlainText().replace(" \n", "\n");
 
-        int l1,l2, levenshtein; float accuracy;
-        l1 = s1.length();
-        l2= s2.length();
+        int l1,l2, DiffOcr_Corrector; float correctorChangesPerc;
 
-        levenshtein = editDist(s2,s1);
-        accuracy = ((float)(levenshtein)/(float)l1)*100;
-        if(accuracy<0) accuracy = ((float)(levenshtein)/(float)l2)*100;
-        QString diff = QString::number(((float)lround(accuracy*100))/100);
-        InternDiffView *dv = new InternDiffView(qs1,qs2,ocrimage,diff); //Fetch OCR Image in DiffView2 and Set
-        dv->show();
+        l1 = qs1.length(); l2 = qs2.length();
+        if(qs1=="" | qs2 == "")
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Error in Displaying one of the files. One of the Files is Empty");
+            msgBox.exec();
+        }
+        else
+        {
+            diff_match_patch dmp;
+            auto diffs1 = dmp.diff_main(qs1,qs2);
+            DiffOcr_Corrector = dmp.diff_levenshtein(diffs1);
+            correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
+            correctorChangesPerc = (((float)lround(correctorChangesPerc*100))/100);
+
+            InternDiffView *dv = new InternDiffView(qs1,qs2,ocrimage,QString::number(correctorChangesPerc)); //Fetch OCR Image in DiffView2 and Set
+            dv->show();
+        }
     }
 }
 
