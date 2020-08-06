@@ -1,0 +1,29 @@
+{
+    "AverageCharAccuracy": 32.05666732788086,
+    "AverageCharErrors": 4,
+    "AverageWordAccuracy": 28.703332901000977,
+    "AverageWordErrors": 1,
+    "pages": {
+        "": {
+            "characcuracy": 100,
+            "charerrors": 0,
+            "comments": "badbadvxx axv avav",
+            "pagename": "",
+            "rating": 5,
+            "wordaccuracy": 100,
+            "worderrors": 0
+        },
+        "page-1": {
+            "comments": "vvssfsfvvndndfsbsfbdffbdnsfbsb"
+        },
+        "page-1.html": {
+            "comments": "vvssfsf"
+        },
+        "page-2": {
+            "comments": "page-2 ka comments"
+        },
+        "page-3": {
+            "comments": "badbadvxx axv avav"
+        }
+    }
+}

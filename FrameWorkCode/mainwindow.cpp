@@ -3369,7 +3369,7 @@ void MainWindow::on_viewallcomments_clicked()
 
     if(!save_triggered)
     {
-        CommentsView *cv = new CommentsView(totalworderr,totalcharerr,wordacc,characc,comments,commentFilename,pagename, rating);
+        CommentsView *cv = new CommentsView(totalworderr,totalcharerr,wordacc,characc,comments,commentFilename,currentpagename, rating);
         cv->show();
     }
 
