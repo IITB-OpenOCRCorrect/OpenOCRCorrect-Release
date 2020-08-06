@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
     str.replace(",, ", "\n");
    // str.replace(", ","\t");
     QFont font("Shobhika-Regular");
-    font.setWeight(12);
+    font.setPointSize(12);
     ui->textEdit->setFont(font);
     ui->textEdit->setText(str);
     ui->textEdit->setFont(font);
@@ -499,7 +499,7 @@ void MainWindow::on_actionOpen_triggered()
                     QString text = ui->textBrowser->toPlainText();
                     openedFileChars = text.length();
                     QString  simplifiedtext = text.simplified();
-                    openedFileWords = simplifiedtext.count(" ");
+                    openedFileWords = simplifiedtext.count(" ") + 1;
                     sFile.close();
                     //qDebug()<<"openedHTMlFile";
                 }
@@ -510,14 +510,16 @@ void MainWindow::on_actionOpen_triggered()
                     QString text = in.readAll();
                     openedFileChars = text.length();
                     QString  simplifiedtext = text.simplified();
-                    openedFileWords = simplifiedtext.count(" ");
+                    openedFileWords = simplifiedtext.count(" ") + 1;
                     sFile.close();
 
                     string str1 = text.toUtf8().constData();
                     istringstream iss(str1);
                     string strHtml = "<html><body><p>"; string line;
                     while (getline(iss, line)) {
-                        if(line=="\r" | line == "\n" | line == "\r\n") strHtml+="</p><p>";
+                        QString qline = QString::fromStdString(line);
+                        if(qline.contains("\r")) strHtml+="</p><p>";
+                        //if(line=="\r" | line == "\n" | line == "\r\n") strHtml+="</p><p>";
                         else strHtml += line + "<br />";
                    }
                    strHtml += "</p></body></html>";
@@ -919,7 +921,10 @@ void MainWindow::textChangedSlot(){
 }
 */
 
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
 
+}
 
 
 void MainWindow::menuSelection(QAction* action)
@@ -2811,6 +2816,31 @@ void MainWindow::on_actionFontBlack_triggered()
     ui->textBrowser->setTextColor(Qt::black);
 }
 
+void MainWindow::on_actionSuperscript_triggered() {
+    auto cursor = ui->textBrowser->textCursor();
+    auto selected = cursor.selection();
+    QString sel = selected.toPlainText();
+    cursor.removeSelectedText();
+    sel = "<sup>" + sel + "</sup>";
+    auto newfrag = selected.fromHtml(sel);
+    cursor.insertFragment(newfrag);
+}
+void MainWindow::on_actionSubscript_triggered() {
+    auto cursor = ui->textBrowser->textCursor();
+    auto selected = cursor.selection();
+    cursor.removeSelectedText();
+    QString sel = selected.toPlainText();
+    sel = "<sub>" + sel + "</sub>";
+    auto newfrag = selected.fromHtml(sel);
+    cursor.insertFragment(newfrag);
+}
+
+
+void MainWindow::on_actionInsert_Horizontal_Line_triggered()
+{
+    ui->textBrowser->insertHtml("<hr>");
+}
+
 
 //void MainWindow::on_actionSaveAsODF_triggered()//modified
 //{
@@ -2994,11 +3024,8 @@ void MainWindow::on_pushButton_3_clicked() //Corrector
         l2= s2.length();
 
         levenshtein = editDist(s2,s1);
-        //qDebug() <<levenshtein << "levenshtein";
         accuracy = ((float)(levenshtein)/(float)l1)*100;
         if(accuracy<0) accuracy = ((float)(levenshtein)/(float)l2)*100;
-        //qDebug() <<accuracy << "accuracy";
-        //ui->lineEdit_2->setText(QString::number(accuracy) + "% Similar");
         QString diff = QString::number(((float)lround(accuracy*100))/100);
         InternDiffView *dv = new InternDiffView(qs1,qs2,ocrimage,diff); //Fetch OCR Image in DiffView2 and Set
         dv->show();
@@ -3247,22 +3274,26 @@ void MainWindow::on_viewallcomments_clicked()
     rating = page.value("rating").toInt();
     totalcharerr = page.value("charerrors").toInt();
     totalworderr = page.value("worderrors").toInt();
-    characc = page.value("characcuracy").toInt();
-    wordacc = page.value("wordaccuracy").toInt();
+    characc = page.value("characcuracy").toDouble();
+    wordacc = page.value("wordaccuracy").toDouble();
     pagename = page.value("pagename").toString();
 
     jsonFile.close();
 
-    if(dir1levelup!= (dir2levelup + "/Inds")) //if Inds file-> do not create new accuracies just display previous accuracy
+    if(dir1levelup!= (dir2levelup + "/Inds")) //if Inds file-> do not create new accuracies just display previous accuracy to the Verifier
     {
+        /*
+        //      Character Changes for Accuracy Calculation
+
         QTextDocument doc;
         doc.setHtml(correctorOutput);
         correctorOutput = doc.toPlainText().simplified();
         currentpagetext = ui->textBrowser->toPlainText().simplified();
 
         int l1 = correctorOutput.length(), l2 = currentpagetext.length();
-        diff_match_patch dmp;
 
+
+        diff_match_patch dmp;
         auto diffs1 = dmp.diff_main(correctorOutput,currentpagetext);
         totalcharerr = dmp.diff_levenshtein(diffs1);
 
@@ -3274,6 +3305,15 @@ void MainWindow::on_viewallcomments_clicked()
         auto diffs3 = dmp.diff_main(lineText1, lineText2);
         totalworderr= dmp.diff_levenshtein(diffs3);
         dmp.diff_charsToLines(diffs3, lineArray);
+
+
+        characc = (float)(l1 - totalcharerr)/(float)l1*100;
+        if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
+        characc = (((float)lround(characc*100))/100);
+
+        wordacc = (float)(totalwords - totalworderr)/(float)totalwords*100;
+        wordacc = (((float)lround(wordacc*100))/100);
+        */
     
     //HIGHLIGHTS FOR Accuracy Calculation
         auto textcursor1 = ui->textBrowser->textCursor();
@@ -3295,19 +3335,12 @@ void MainWindow::on_viewallcomments_clicked()
             //textcursor1.movePosition(QTextCursor::NextCharacter , QTextCursor::MoveAnchor, 1);
         }
         
-        totalworderr += wordcount.size();
-        //    float characc = (float)(openedFileChars - totalcharerr)/(float)openedFileChars*100;
-        //    float wordacc = (float)(openedFileWords - totalworderr)/(float)openedFileWords*100 ;
-        //    wordacc = ((float)lround(wordacc*100))/100;
-        //    characc = ((float)lround(characc*100))/100;
+        totalworderr = wordcount.size();
+        characc = (float)(openedFileChars - totalcharerr)/(float)openedFileChars*100;
+        wordacc = (float)(openedFileWords - totalworderr)/(float)openedFileWords*100 ;
+        wordacc = ((float)lround(wordacc*100))/100;
+        characc = ((float)lround(characc*100))/100;
         
-        characc = (float)(l1 - totalcharerr)/(float)l1*100;
-        if(characc<0) characc = ((float)(l2 - totalcharerr)/(float)l2)*100;
-        characc = (((float)lround(characc*100))/100);
-        
-        wordacc = (float)(totalwords - totalworderr)/(float)totalwords*100;
-        wordacc = (((float)lround(wordacc*100))/100);
-    
     }
 
     if(characc>99.0) rating =5;
@@ -3389,8 +3422,7 @@ void MainWindow::LogHighlights(QString word)
 
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
-//    int mins = secs/60;
-//    secs = secs - mins*60;
+
     QString time = QTime::currentTime().toString();
     highlights["Word"] = word;
     highlights["Timestamp"] = time;
@@ -3409,28 +3441,3 @@ void MainWindow::LogHighlights(QString word)
 }
 
 
-void MainWindow::on_actionSuperscript_triggered() {
-	auto cursor = ui->textBrowser->textCursor();
-	auto selected = cursor.selection();
-	QString sel = selected.toPlainText();
-	cursor.removeSelectedText();
-	sel = "<sup>" + sel + "</sup>";
-	auto newfrag = selected.fromHtml(sel);
-	cursor.insertFragment(newfrag);
-}
-void MainWindow::on_actionSubscript_triggered() {
-	auto cursor = ui->textBrowser->textCursor();
-	auto selected = cursor.selection();
-	cursor.removeSelectedText();
-	QString sel = selected.toPlainText();
-	sel = "<sub>" + sel + "</sub>";
-	auto newfrag = selected.fromHtml(sel);
-	cursor.insertFragment(newfrag);
-}
-
-
-
-void MainWindow::on_actionInsert_Horizontal_Line_triggered()
-{
-    ui->textBrowser->insertHtml("<hr>");
-}
