@@ -3,12 +3,40 @@
         "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-1.html",
         "seconds": 226
     },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-10.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-10.html",
+        "seconds": 28
+    },
     "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-2.html": {
         "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-2.html",
         "seconds": 731
     },
     "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-3.html": {
         "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-3.html",
-        "seconds": 9
+        "seconds": 16
+    },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-4.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-4.html",
+        "seconds": 22
+    },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-5.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-5.html",
+        "seconds": 6
+    },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-9.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/CorrectorOutput/page-9.html",
+        "seconds": 0
+    },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/VerifierOutput/page-1.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/VerifierOutput/page-1.html",
+        "seconds": 12
+    },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/VerifierOutput/page-2.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/VerifierOutput/page-2.html",
+        "seconds": 63
+    },
+    "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/VerifierOutput/page-4.html": {
+        "directory": "C:/Git/newer-ver/OpenOCRCorrect-Release/data/Book1Sanskrit/VerifierOutput/page-4.html",
+        "seconds": 17
     }
 }

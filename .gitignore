@@ -35,6 +35,7 @@ bld/
 *.VisualState.xml
 TestResult.xml
 ui_*
+moc_*
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/

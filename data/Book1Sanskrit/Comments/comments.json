@@ -1,29 +1,38 @@
 {
-    "AverageCharAccuracy": 32.05666732788086,
-    "AverageCharErrors": 4,
-    "AverageWordAccuracy": 28.703332901000977,
-    "AverageWordErrors": 1,
+    "AverageCharAccuracy": 12.5,
+    "AverageCharErrors": 0,
+    "AverageWordAccuracy": 12.5,
+    "AverageWordErrors": 0,
     "pages": {
         "": {
             "characcuracy": 100,
             "charerrors": 0,
-            "comments": "badbadvxx axv avav",
+            "comments": "asasfasgadbcv",
             "pagename": "",
             "rating": 5,
             "wordaccuracy": 100,
             "worderrors": 0
         },
         "page-1": {
-            "comments": "vvssfsfvvndndfsbsfbdffbdnsfbsb"
+            "comments": "first page comment"
         },
         "page-1.html": {
             "comments": "vvssfsf"
         },
+        "page-10": {
+            "comments": "asasfasgadbcv"
+        },
         "page-2": {
-            "comments": "page-2 ka comments"
+            "comments": "fixed color"
         },
         "page-3": {
             "comments": "badbadvxx axv avav"
+        },
+        "page-4": {
+            "comments": "asassvavdsbdb"
+        },
+        "page-5": {
+            "comments": "vavasvascasczxc"
         }
     }
 }

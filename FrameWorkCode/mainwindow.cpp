@@ -162,6 +162,18 @@ void MainWindow::savetimelog(map<QString, int> TimeLog)
     jsonFile.write(document.toJson());
 }
 
+void MainWindow::on_actionZoom_In_triggered()
+{
+	if (z)
+		z->gentle_zoom(1.1);
+}
+
+void MainWindow::on_actionZoom_Out_triggered()
+{
+	if (z)
+		z->gentle_zoom(0.9);
+}
+
 void MainWindow::on_actionLoad_Next_Page_triggered()
 {
     bool ok = false;
@@ -551,8 +563,8 @@ void MainWindow::on_actionOpen_triggered()
                     //mFilenamejpeg = "page-1.jpeg";
                     imageOrig.load(localmFilename);
                     localmFilename = mFilename;
-
-                    QGraphicsScene *graphic = new QGraphicsScene(this);
+					if (graphic)delete graphic;
+                    graphic = new QGraphicsScene(this);
                     graphic->addPixmap(QPixmap::fromImage(imageOrig));
                     ui->graphicsView->setScene(graphic);
                     //ui->graphicsView->adjustSize();
@@ -569,8 +581,8 @@ void MainWindow::on_actionOpen_triggered()
 //                    if (!prevTRig) on_actionSpell_Check_triggered(); //modified
 
                     //OPENSPELLFLAG = 0;
-
-                    Graphics_view_zoom* z = new Graphics_view_zoom(ui->graphicsView);
+					if (z) delete z;
+                    z = new Graphics_view_zoom(ui->graphicsView);
                     z->set_modifiers(Qt::NoModifier);
                     // fill indexes according to Tesseract
 
@@ -3257,19 +3269,15 @@ void MainWindow::on_viewallcomments_clicked()
     QString pagename = currentpagename;
     pagename.replace(".txt", "");
     pagename.replace(".html", "");
-
     int totalcharerr = 0, totalworderr = 0, rating = 0; QString comments = ""; float wordacc=100, characc=100;
-
     QFile jsonFile(commentFilename);
     jsonFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = jsonFile.readAll();
-
     QJsonParseError errorPtr;
     QJsonDocument document = QJsonDocument::fromJson(data, &errorPtr);
     QJsonObject mainObj = document.object();
     QJsonObject pages = mainObj.value("pages").toObject();
     QJsonObject page = pages.value(pagename).toObject();
-
     comments = page.value("comments").toString();
     rating = page.value("rating").toInt();
     totalcharerr = page.value("charerrors").toInt();
@@ -3277,9 +3285,7 @@ void MainWindow::on_viewallcomments_clicked()
     characc = page.value("characcuracy").toDouble();
     wordacc = page.value("wordaccuracy").toDouble();
     pagename = page.value("pagename").toString();
-
     jsonFile.close();
-
     if(dir1levelup!= (dir2levelup + "/Inds")) //if Inds file-> do not create new accuracies just display previous accuracy to the Verifier
     {
         /*

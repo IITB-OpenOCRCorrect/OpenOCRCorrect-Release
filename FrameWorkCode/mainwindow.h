@@ -198,9 +198,14 @@ private slots:
 
     void  savetimelog(map<QString, int> TimeLog);
 
+
+	void on_actionZoom_In_triggered();
+	void on_actionZoom_Out_triggered();
+
 private:
     Ui::MainWindow *ui;
-
+	QGraphicsScene * graphic = nullptr;
+	Graphics_view_zoom * z =nullptr;
     QString mFilename;
     QString mFilenamejpeg;
 };
