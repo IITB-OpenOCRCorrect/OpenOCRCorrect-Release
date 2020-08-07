@@ -3234,3 +3234,13 @@ void MainWindow::on_actionInsert_Horizontal_Line_triggered()
 {
     ui->textBrowser->insertHtml("<hr>");
 }
+
+void MainWindow::on_actionZoomInTextBrowser_triggered()
+{
+    ui->textBrowser->zoomIn(1);
+}
+
+void MainWindow::on_actionZoomOutTextBroswer_triggered()
+{
+    ui->textBrowser->zoomOut(1);
+}
