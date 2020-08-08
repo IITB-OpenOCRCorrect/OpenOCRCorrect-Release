@@ -196,7 +196,7 @@ private slots:
 
     void on_actionInsert_Horizontal_Line_triggered();
 
-    void  savetimelog(map<QString, int> TimeLog);
+    void on_actionConvertToPragraph_triggered();
 
 private:
     Ui::MainWindow *ui;

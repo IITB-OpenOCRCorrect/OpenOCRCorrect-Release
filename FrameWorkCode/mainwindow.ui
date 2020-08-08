@@ -315,6 +315,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionSubscript"/>
     <addaction name="actionSuperscript"/>
     <addaction name="actionInsert_Horizontal_Line"/>
+    <addaction name="actionConvertToPragraph"/>
    </widget>
    <addaction name="menuSelectLanguage"/>
    <addaction name="menuOCR_Correction_Window"/>
@@ -754,6 +755,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionInsert_Horizontal_Line">
    <property name="text">
     <string>Insert Horizontal Line</string>
+   </property>
+  </action>
+  <action name="actionConvertToPragraph">
+   <property name="text">
+    <string>ConvertToPragraph</string>
    </property>
   </action>
  </widget>

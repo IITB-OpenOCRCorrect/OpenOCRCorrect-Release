@@ -136,7 +136,12 @@ void MainWindow::on_actionLoad_Prev_Page_triggered()
 
     //imageOrig.load(localFilename.replace(QString("txt"),QString("jpeg")));
 }*/
-
+void DisplayError(QString error)
+{
+    QMessageBox msgBox;
+    msgBox.setText(error);
+    msgBox.exec();
+}
 
 //bool OPENSPELLFLAG = 1;// TO NOT CONVERT ASCII STRINGS TO DEVANAGARI ON OPENING WHEN SPELLCHECK IS CLICKED
 QString file = "";
@@ -144,7 +149,7 @@ bool fileFlag = 0;
 QTime myTimer;
 int secs;
 
-void MainWindow::savetimelog(map<QString, int> TimeLog)
+void savetimelog()
 {
     QJsonObject mainObj;
     QJsonObject page;
@@ -164,7 +169,6 @@ void MainWindow::savetimelog(map<QString, int> TimeLog)
 
 void MainWindow::on_actionLoad_Next_Page_triggered()
 {
-    bool ok = false;
     if(initialtexthtml.compare(ui->textBrowser->toHtml()))
     {
         int btn = QMessageBox::question(this, "Save?", "Do you want to save this file?", QMessageBox::StandardButton::Ok, QMessageBox::StandardButton::No);
@@ -175,26 +179,9 @@ void MainWindow::on_actionLoad_Next_Page_triggered()
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
-//    int mins = secs/60;
-//    secs = secs - mins*60;
     TimeLog[mFilename] += secs;
-    savetimelog(TimeLog);
+    savetimelog();
 
-//    QFile sFile(TimeLogLocation);
-//        if(sFile.open(QFile::WriteOnly))
-//      {
-//          QString timelogstring = "";
-//          QTextStream out(&sFile);
-
-//          for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
-//          {
-//              timelogstring+= QString::fromStdString(i->first) + " ";
-//              timelogstring+= QString::fromStdString(to_string(i->second)) + "\n";
-//          }
-//          out << timelogstring;
-//          sFile.flush();
-//          sFile.close();
-//      }
     string nos = "0123456789";
     size_t loc = localFilename.find(".txt");
     if(loc == string::npos)
@@ -219,7 +206,6 @@ void MainWindow::on_actionLoad_Next_Page_triggered()
 
 void MainWindow::on_actionLoad_Prev_Page_triggered()
 {
-    bool ok = false;
     if(initialtexthtml.compare(ui->textBrowser->toHtml()))
     {
         int btn = QMessageBox::question(this, "Save?", "Do you want to save this file?", QMessageBox::StandardButton::Ok, QMessageBox::StandardButton::No);
@@ -229,27 +215,10 @@ void MainWindow::on_actionLoad_Prev_Page_triggered()
     string localFilename = mFilename.toUtf8().constData();
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
-//    int mins = secs/60;
-//    secs = secs - mins*60;
     TimeLog[mFilename] += secs;
 
-    savetimelog(TimeLog);
+    savetimelog();
 
-//    QFile sFile(TimeLogLocation);
-//        if(sFile.open(QFile::WriteOnly))
-//      {
-//          QString timelogstring = "";
-//          QTextStream out(&sFile);
-
-//          for (auto i = TimeLog.begin(); i!=TimeLog.end(); i++ )
-//          {
-//              timelogstring+= QString::fromStdString(i->first) + " ";
-//              timelogstring+= QString::fromStdString(to_string(i->second)) + "\n";
-//          }
-//          out << timelogstring;
-//          sFile.flush();
-//          sFile.close();
-//      }
     string nos = "0123456789";
     size_t loc = localFilename.find(".txt");
     if(loc == string::npos)
@@ -528,6 +497,7 @@ void MainWindow::on_actionOpen_triggered()
 
                    QFont font("Shobhika-Regular");
                    font.setWeight(14);
+                   font.setPointSize(14);
                    ui->textBrowser->setFont(font);
                    ui->textBrowser->setHtml(qstrHtml);
                    ui->textBrowser->setFont(font);
@@ -1035,7 +1005,7 @@ void MainWindow::on_actionSave_triggered()
     save_triggered = 1;
     on_viewallcomments_clicked();
     updateAverageAccuracies();
-    savetimelog(TimeLog);
+    savetimelog();
 
     int nMilliseconds = myTimer.elapsed();
     secs = nMilliseconds/1000;
@@ -2814,6 +2784,11 @@ void MainWindow::on_actionAllFontProperties_triggered()
 void MainWindow::on_actionFontBlack_triggered()
 {
     ui->textBrowser->setTextColor(Qt::black);
+    QTextCursor cursor = ui->textBrowser->textCursor();
+    QTextBlockFormat f;
+    f.setLineHeight(300,1);
+    cursor.select(QTextCursor::LineUnderCursor);
+    cursor.setBlockFormat(f);
 }
 
 void MainWindow::on_actionSuperscript_triggered() {
@@ -2877,9 +2852,10 @@ void MainWindow::on_pushButton_2_clicked() //Verifier
             {
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
-                QString t = in.readAll();
-                t= t.replace(" \n","\n");
-                qs1=t;
+                qs1 = in.readAll().replace(" \n","\n");
+                if(qs1=="") {
+                    DisplayError("Error in Displaying File: "+ ocrtext + "is Empty");
+                    return;      }
                 sFile.close();
             }
 
@@ -2892,6 +2868,9 @@ void MainWindow::on_pushButton_2_clicked() //Verifier
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
                 qs2 = in.readAll();
+                if(qs2=="") {
+                    DisplayError("Error in Displaying File: "+ correctortext + "is Empty");
+                    return;      }
                 sFile.close();
             }
 
@@ -2904,6 +2883,9 @@ void MainWindow::on_pushButton_2_clicked() //Verifier
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
                 qs3 = in.readAll();
+                if(qs3=="") {
+                    DisplayError("Error in Displaying File: "+ verifiertext + "is Empty");
+                    return;      }
                 sFile.close();
             }
 
@@ -2919,39 +2901,32 @@ void MainWindow::on_pushButton_2_clicked() //Verifier
         int l1,l2,l3, DiffOcr_Corrector,DiffCorrector_Verifier,DiffOcr_Verifier; float correctorChangesPerc,verifierChangesPerc,ocrErrorPerc;
 
         l1 = qs1.length(); l2 = qs2.length(); l3 = qs3.length();
-        if(qs1=="" | qs2 == "" | qs3 == "")
-        {
-            QMessageBox msgBox;
-            msgBox.setText("Error in displaying one of the files. One of the files is empty");
-            msgBox.exec();
-        }
-        else
-        {
-            diff_match_patch dmp;
 
-            auto diffs1 = dmp.diff_main(qs1,qs2);
-            DiffOcr_Corrector = dmp.diff_levenshtein(diffs1);
-            correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
-            if(correctorChangesPerc<0) correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l2)*100;
-            correctorChangesPerc = (((float)lround(correctorChangesPerc*100))/100);
+        diff_match_patch dmp;
 
-            auto diffs2 = dmp.diff_main(qs2,qs3);
-            DiffCorrector_Verifier = dmp.diff_levenshtein(diffs2);
-            verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l2)*100;
-            if(verifierChangesPerc<0) verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l3)*100;
-            verifierChangesPerc = (((float)lround(verifierChangesPerc*100))/100);
+        auto diffs1 = dmp.diff_main(qs1,qs2);
+        DiffOcr_Corrector = dmp.diff_levenshtein(diffs1);
+        correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l2)*100;
+        if(correctorChangesPerc>100) correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
+        correctorChangesPerc = (((float)lround(correctorChangesPerc*100))/100);
 
-            auto diffs3 = dmp.diff_main(qs1,qs3);
-            DiffOcr_Verifier = dmp.diff_levenshtein(diffs3);
-            ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l1)*100;
-            if(ocrErrorPerc<0) ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l3)*100;
-            float ocrAcc = 100 - (((float)lround(ocrErrorPerc*100))/100);
+        auto diffs2 = dmp.diff_main(qs2,qs3);
+        DiffCorrector_Verifier = dmp.diff_levenshtein(diffs2);
+        verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l3)*100;
+        if(verifierChangesPerc>100) verifierChangesPerc = ((float)(DiffCorrector_Verifier)/(float)l2)*100;
+        verifierChangesPerc = (((float)lround(verifierChangesPerc*100))/100);
 
-            DiffView *dv = new DiffView(qs1,qs2,qs3,QString::number(correctorChangesPerc),QString::number(verifierChangesPerc),QString::number(ocrAcc));
-            dv->show();
-        }
+        auto diffs3 = dmp.diff_main(qs1,qs3);
+        DiffOcr_Verifier = dmp.diff_levenshtein(diffs3);
+        ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l3)*100;
+        if(ocrErrorPerc>100) ocrErrorPerc = ((float)(DiffOcr_Verifier)/(float)l1)*100;
+        float ocrAcc = 100 - (((float)lround(ocrErrorPerc*100))/100);
+
+        DiffView *dv = new DiffView(qs1,qs2,qs3,QString::number(correctorChangesPerc),QString::number(verifierChangesPerc),QString::number(ocrAcc));
+        dv->show();
     }
 }
+
 
 
 void MainWindow::on_pushButton_3_clicked() //Corrector
@@ -2980,8 +2955,10 @@ void MainWindow::on_pushButton_3_clicked() //Corrector
             {
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
-                QString t = in.readAll().replace(" \n","\n");
-                qs1=t;
+                qs1 = in.readAll().replace(" \n","\n");
+                if(qs1=="") {
+                    DisplayError("Error in Displaying File: "+ ocrtext+ "is Empty");
+                    return;      }
                 sFile.close();
             }
 
@@ -2994,6 +2971,9 @@ void MainWindow::on_pushButton_3_clicked() //Corrector
                 QTextStream in(&sFile);
                 in.setCodec("UTF-8");
                 qs2 = in.readAll();
+                if(qs2=="") {
+                    DisplayError("Error in Displaying File: "+ correctortext + "is Empty");
+                    return;      }
                 sFile.close();
             }
 
@@ -3005,23 +2985,17 @@ void MainWindow::on_pushButton_3_clicked() //Corrector
         int l1,l2, DiffOcr_Corrector; float correctorChangesPerc;
 
         l1 = qs1.length(); l2 = qs2.length();
-        if(qs1=="" | qs2 == "")
-        {
-            QMessageBox msgBox;
-            msgBox.setText("Error in Displaying one of the files. One of the Files is Empty");
-            msgBox.exec();
-        }
-        else
-        {
-            diff_match_patch dmp;
-            auto diffs1 = dmp.diff_main(qs1,qs2);
-            DiffOcr_Corrector = dmp.diff_levenshtein(diffs1);
-            correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
-            correctorChangesPerc = (((float)lround(correctorChangesPerc*100))/100);
 
-            InternDiffView *dv = new InternDiffView(qs1,qs2,ocrimage,QString::number(correctorChangesPerc)); //Fetch OCR Image in DiffView2 and Set
-            dv->show();
-        }
+        diff_match_patch dmp;
+        auto diffs1 = dmp.diff_main(qs1,qs2);
+        DiffOcr_Corrector = dmp.diff_levenshtein(diffs1);
+        correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l2)*100;
+        if(correctorChangesPerc>100) correctorChangesPerc = ((float)(DiffOcr_Corrector)/(float)l1)*100;
+        correctorChangesPerc = (((float)lround(correctorChangesPerc*100))/100);
+
+        InternDiffView *dv = new InternDiffView(qs1,qs2,ocrimage,QString::number(correctorChangesPerc)); //Fetch OCR Image in DiffView2 and Set
+        dv->show();
+
     }
 }
 
@@ -3233,18 +3207,15 @@ void MainWindow::on_viewallcomments_clicked()
 {
     QString correctorOutput,currentpagetext;
     QString correctortext = dir2levelup + "/CorrectorOutput/" + currentpagename;
-    if(!correctortext.isEmpty())
+    QFile sFile(correctortext);
+    if(sFile.open(QFile::ReadOnly | QFile::Text))
     {
-        QFile sFile(correctortext);
-        if(sFile.open(QFile::ReadOnly | QFile::Text))
-        {
-            QTextStream in(&sFile);
-            in.setCodec("UTF-8");
-            correctorOutput = in.readAll().simplified();
-            sFile.close();
-        }
-
+        QTextStream in(&sFile);
+        in.setCodec("UTF-8");
+        correctorOutput = in.readAll().simplified();
+        sFile.close();
     }
+
     map<int, int> wordcount;
     QString commentFilename = dir2levelup + "/Comments/comments.json";
     QString pagename = currentpagename;
@@ -3265,11 +3236,6 @@ void MainWindow::on_viewallcomments_clicked()
 
     comments = page.value("comments").toString();
     rating = page.value("rating").toInt();
-    totalcharerr = page.value("charerrors").toInt();
-    totalworderr = page.value("worderrors").toInt();
-    characc = page.value("characcuracy").toDouble();
-    wordacc = page.value("wordaccuracy").toDouble();
-    pagename = page.value("pagename").toString();
 
     jsonFile.close();
 
@@ -3362,7 +3328,7 @@ void MainWindow::on_viewallcomments_clicked()
 
     if(!save_triggered)
     {
-        CommentsView *cv = new CommentsView(totalworderr,totalcharerr,wordacc,characc,comments,commentFilename,currentpagename, rating);
+        CommentsView *cv = new CommentsView(totalworderr,totalcharerr,wordacc,characc,comments,commentFilename,pagename, rating);
         cv->show();
     }
 
@@ -3431,6 +3397,20 @@ void MainWindow::LogHighlights(QString word)
     QFile jsonFile1(highlightsFilename);
     jsonFile1.open(QIODevice::WriteOnly);
     jsonFile1.write(document.toJson());
+}
+
+
+
+void MainWindow::on_actionConvertToPragraph_triggered()
+{
+    auto cursor = ui->textBrowser->textCursor();
+    QString selected = cursor.selectedText();
+    cursor.removeSelectedText();
+    QString ascii_ShiftEnter =  QByteArray::fromHex("0x2028");
+    QString ascii_Enter = QByteArray::fromHex("0x2029");
+    selected.replace(ascii_Enter, ascii_ShiftEnter);
+    cursor.insertHtml("<p>" + selected + "</p>");
+
 }
 
 
