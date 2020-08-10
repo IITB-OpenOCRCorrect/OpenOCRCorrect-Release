@@ -5,13 +5,13 @@
     "AverageWordErrors": 0,
     "pages": {
         "": {
-            "characcuracy": 100,
-            "charerrors": 0,
-            "comments": "asasfasgadbcv",
+            "characcuracy": 97.5199966430664,
+            "charerrors": 37,
+            "comments": "fixed color",
             "pagename": "",
-            "rating": 5,
-            "wordaccuracy": 100,
-            "worderrors": 0
+            "rating": 3,
+            "wordaccuracy": 96.4000015258789,
+            "worderrors": 4
         },
         "page-1": {
             "comments": "first page comment"
