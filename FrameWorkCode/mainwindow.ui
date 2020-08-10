@@ -121,7 +121,10 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
       <item>
        <widget class="QTextEdit" name="textEdit">
         <property name="maximumSize">
@@ -315,7 +318,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionSubscript"/>
     <addaction name="actionSuperscript"/>
     <addaction name="actionInsert_Horizontal_Line"/>
-    <addaction name="actionConvertToPragraph"/>
+    <addaction name="actionLineSpace"/>
    </widget>
    <addaction name="menuSelectLanguage"/>
    <addaction name="menuOCR_Correction_Window"/>
@@ -359,8 +362,11 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionLeftAlign"/>
    <addaction name="actionCentreAlign"/>
    <addaction name="actionRightAlign"/>
+   <addaction name="actionLineSpace"/>
    <addaction name="actionHighlight"/>
    <addaction name="actionFontBlack"/>
+   <addaction name="actionZoom_In"/>
+   <addaction name="actionZoom_Out"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
@@ -757,9 +763,31 @@ p, li { white-space: pre-wrap; }
     <string>Insert Horizontal Line</string>
    </property>
   </action>
-  <action name="actionConvertToPragraph">
+  <action name="actionZoom_In">
+   <property name="icon">
+    <iconset resource="AppResources.qrc">
+     <normaloff>:/Images/Zoom-In-icon.png</normaloff>:/Images/Zoom-In-icon.png</iconset>
+   </property>
    <property name="text">
-    <string>ConvertToPragraph</string>
+    <string>Zoom In</string>
+   </property>
+  </action>
+  <action name="actionZoom_Out">
+   <property name="icon">
+    <iconset resource="AppResources.qrc">
+     <normaloff>:/Images/Zoom-Out-icon.png</normaloff>:/Images/Zoom-Out-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+  </action>
+  <action name="actionLineSpace">
+   <property name="icon">
+    <iconset resource="AppResources.qrc">
+     <normaloff>:/Images/linespacing.png</normaloff>:/Images/linespacing.png</iconset>
+   </property>
+   <property name="text">
+    <string>LineSpace</string>
    </property>
   </action>
  </widget>
@@ -769,7 +797,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>graphicsView</tabstop>
  </tabstops>
  <resources>
-  <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
  </resources>

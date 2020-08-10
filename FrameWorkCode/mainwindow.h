@@ -196,11 +196,16 @@ private slots:
 
     void on_actionInsert_Horizontal_Line_triggered();
 
-    void on_actionConvertToPragraph_triggered();
+	void on_actionZoom_In_triggered();
+
+	void on_actionZoom_Out_triggered();
+
+    void on_actionLineSpace_triggered();
 
 private:
     Ui::MainWindow *ui;
-
+	QGraphicsScene * graphic = nullptr;
+	Graphics_view_zoom * z =nullptr;
     QString mFilename;
     QString mFilenamejpeg;
 };
