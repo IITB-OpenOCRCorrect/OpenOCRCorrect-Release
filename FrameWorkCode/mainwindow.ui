@@ -120,10 +120,8 @@
       </item>
      </layout>
     </item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
-      </property>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QTextEdit" name="textEdit">
         <property name="maximumSize">
@@ -791,8 +789,9 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionLineSpace">
    <property name="icon">
-    <iconset resource="AppResources.qrc">
-     <normaloff>:/Images/linespacing.png</normaloff>:/Images/linespacing.png</iconset>
+    <iconset>
+     <normalon>:/Images/linespacing.png</normalon>
+    </iconset>
    </property>
    <property name="text">
     <string>LineSpace</string>
@@ -805,6 +804,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>graphicsView</tabstop>
  </tabstops>
  <resources>
+  <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
  </resources>
