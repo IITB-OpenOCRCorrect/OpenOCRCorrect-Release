@@ -120,6 +120,7 @@
       </item>
      </layout>
     </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
