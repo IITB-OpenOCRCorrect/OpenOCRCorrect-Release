@@ -234,7 +234,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1386</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOCR_Correction_Window">
@@ -324,6 +324,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionSubscript"/>
     <addaction name="actionSuperscript"/>
     <addaction name="actionInsert_Horizontal_Line"/>
+    <addaction name="actionLineSpace"/>
    </widget>
    <addaction name="menuSelectLanguage"/>
    <addaction name="menuOCR_Correction_Window"/>
@@ -367,6 +368,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionLeftAlign"/>
    <addaction name="actionCentreAlign"/>
    <addaction name="actionRightAlign"/>
+   <addaction name="actionLineSpace"/>
    <addaction name="actionHighlight"/>
    <addaction name="actionFontBlack"/>
    <addaction name="actionZoom_In"/>
@@ -785,6 +787,16 @@ p, li { white-space: pre-wrap; }
     <string>Zoom Out</string>
    </property>
   </action>
+  <action name="actionLineSpace">
+   <property name="icon">
+    <iconset>
+     <normalon>:/Images/linespacing.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>LineSpace</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -792,6 +804,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>graphicsView</tabstop>
  </tabstops>
  <resources>
+  <include location="AppResources.qrc"/>
+  <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
  </resources>
  <connections/>
