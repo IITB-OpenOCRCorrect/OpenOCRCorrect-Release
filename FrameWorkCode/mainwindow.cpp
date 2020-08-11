@@ -3237,10 +3237,26 @@ void MainWindow::on_actionInsert_Horizontal_Line_triggered()
 
 void MainWindow::on_actionZoomInTextBrowser_triggered()
 {
-    ui->textBrowser->zoomIn(1);
+    auto cursorzoom=ui->textBrowser->textCursor();
+    cursorzoom.setPosition(0);
+    while(!cursorzoom.atEnd()){
+        int ptzoom=cursorzoom.charFormat().fontPointSize();
+        QTextCharFormat zoomformat=cursorzoom.charFormat();
+        zoomformat.setFontPointSize(ptzoom+1);
+        cursorzoom.mergeCharFormat(zoomformat);
+       cursorzoom.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor,1);
+    }
 }
 
 void MainWindow::on_actionZoomOutTextBroswer_triggered()
 {
-    ui->textBrowser->zoomOut(1);
+    auto cursorzoom=ui->textBrowser->textCursor();
+    cursorzoom.setPosition(0);
+    while(!cursorzoom.atEnd()){
+        int ptzoom=cursorzoom.charFormat().fontPointSize();
+        QTextCharFormat zoomformat=cursorzoom.charFormat();
+        zoomformat.setFontPointSize(ptzoom-1);
+        cursorzoom.mergeCharFormat(zoomformat);
+       cursorzoom.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor,1);
+    }
 }
