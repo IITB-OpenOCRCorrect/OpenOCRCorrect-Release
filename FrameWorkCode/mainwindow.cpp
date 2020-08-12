@@ -3234,3 +3234,22 @@ void MainWindow::on_actionInsert_Horizontal_Line_triggered()
 {
     ui->textBrowser->insertHtml("<hr>");
 }
+
+void MainWindow::on_actionSeperate_Paragraph_triggered()
+{
+        QTextCursor cursor = ui->textBrowser->textCursor();
+        auto selected  = cursor.selection();
+        QString htmlStyle = selected.toHtml();
+        htmlStyle.replace("</p>", "");
+        cursor.removeSelectedText();
+        int startIndex = htmlStyle.indexOf("<p");
+        int endIndex = htmlStyle.indexOf(">", startIndex);
+        while (startIndex >= 0) {
+            endIndex = endIndex + 1;
+            htmlStyle.replace(startIndex, endIndex, "<br />");
+            startIndex = htmlStyle.indexOf("<p", endIndex);
+            endIndex = htmlStyle.indexOf(">", startIndex);
+        }
+        auto newfrag = selected.fromHtml("</p><p>" + htmlStyle + "</p><p>");
+        cursor.insertFragment(newfrag);
+}

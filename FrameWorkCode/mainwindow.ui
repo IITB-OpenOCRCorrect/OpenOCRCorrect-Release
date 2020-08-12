@@ -213,7 +213,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1296</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOCR_Correction_Window">
@@ -303,6 +303,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionSuperscript"/>
     <addaction name="actionSubscript"/>
     <addaction name="actionInsert_Horizontal_Line"/>
+    <addaction name="actionSeperate_Paragraph"/>
    </widget>
    <addaction name="menuSelectLanguage"/>
    <addaction name="menuOCR_Correction_Window"/>
@@ -774,6 +775,11 @@ p, li { white-space: pre-wrap; }
     <string>Zoom Out</string>
    </property>
   </action>
+  <action name="actionSeperate_Paragraph">
+   <property name="text">
+    <string>Seperate Paragraph</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -781,6 +787,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>graphicsView</tabstop>
  </tabstops>
  <resources>
+  <include location="AppResources.qrc"/>
+  <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
  </resources>
  <connections/>

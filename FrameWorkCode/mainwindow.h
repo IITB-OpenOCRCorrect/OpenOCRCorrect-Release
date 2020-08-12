@@ -196,6 +196,8 @@ private slots:
 	void on_actionZoom_In_triggered();
 	void on_actionZoom_Out_triggered();
 
+    void on_actionSeperate_Paragraph_triggered();
+
 private:
     Ui::MainWindow *ui;
 	QGraphicsScene * graphic=nullptr;
