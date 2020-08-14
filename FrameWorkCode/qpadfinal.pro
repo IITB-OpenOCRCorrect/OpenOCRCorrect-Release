@@ -29,7 +29,8 @@ SOURCES +=\
     main.cpp \
     zoom.cpp \
     qcustomplot.cpp \
-	interndiffview.cpp
+	interndiffview.cpp \
+    diacriticsview.cpp
 
 HEADERS  += mainwindow.h \
     DiffView.h \
@@ -78,13 +79,15 @@ HEADERS  += mainwindow.h \
     zoom.h \
     qcustomplot.h \
     meanStdPage.h \
-	interndiffview.h
+	interndiffview.h \
+    diacriticsview.h
 
 FORMS    += mainwindow.ui \
     DiffView.ui \
     averageaccuracies.ui \
     commentsview.ui \
-	interndiffview.ui
+	interndiffview.ui \
+    diacriticsview.ui
 
 RESOURCES += \
     AppResources.qrc

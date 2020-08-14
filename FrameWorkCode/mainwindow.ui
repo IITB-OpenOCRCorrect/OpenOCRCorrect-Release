@@ -213,7 +213,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1296</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOCR_Correction_Window">
@@ -354,6 +354,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionFontBlack"/>
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
+   <addaction name="actionDiacritics_Add"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
@@ -774,6 +775,18 @@ p, li { white-space: pre-wrap; }
     <string>Zoom Out</string>
    </property>
   </action>
+  <action name="actionDiacritics_Add">
+   <property name="icon">
+    <iconset resource="AppResources.qrc">
+     <normaloff>:/Images/icon_diacritics.png</normaloff>:/Images/icon_diacritics.png</iconset>
+   </property>
+   <property name="text">
+    <string>Diacritics Add</string>
+   </property>
+   <property name="toolTip">
+    <string>Diacritics Add</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -781,6 +794,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>graphicsView</tabstop>
  </tabstops>
  <resources>
+  <include location="AppResources.qrc"/>
+  <include location="AppResources.qrc"/>
   <include location="AppResources.qrc"/>
  </resources>
  <connections/>

@@ -3234,3 +3234,9 @@ void MainWindow::on_actionInsert_Horizontal_Line_triggered()
 {
     ui->textBrowser->insertHtml("<hr>");
 }
+
+void MainWindow::on_actionDiacritics_Add_triggered()
+{
+    DiacriticsView *dv = new DiacriticsView(this);
+    dv->show();
+}

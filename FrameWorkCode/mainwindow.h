@@ -34,7 +34,7 @@
 #include<QTime>
 //#include"staticDict.h"
 //#include "lcsqt.h"
-
+#include "diacriticsview.h"
 
 //#include <set>
 using namespace std;
@@ -196,12 +196,15 @@ private slots:
 	void on_actionZoom_In_triggered();
 	void on_actionZoom_Out_triggered();
 
+    void on_actionDiacritics_Add_triggered();
+
 private:
     Ui::MainWindow *ui;
 	QGraphicsScene * graphic=nullptr;
 	Graphics_view_zoom * z=nullptr;
     QString mFilename;
     QString mFilenamejpeg;
+    DiacriticsView *dv;
 };
 
 #endif // MAINWINDOW_H
