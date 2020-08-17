@@ -16,7 +16,7 @@ public:
     ~DiacriticsView();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_copyButton_clicked();
 
 private:
     Ui::DiacriticsView *ui;
