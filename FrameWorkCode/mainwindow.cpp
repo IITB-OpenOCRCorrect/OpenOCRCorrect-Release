@@ -740,7 +740,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 			selectedStr = str1.toUtf8().constData();
 
 		}
-		if (selectedStr != "") {
+		if (selectedStr != ""&& !selectedStr.empty()) {
 			// code to display options on rightclick
 			ui->textBrowser->setContextMenuPolicy(Qt::CustomContextMenu);//IMP TO AVOID UNDO ETC AFTER SELECTING A SUGGESTION
 			QMenu* popup_menu = ui->textBrowser->createStandardContextMenu();
@@ -750,11 +750,19 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 			QAction* act;
 			//vector<string> Words =  print5NearestEntries(TGPage,selectedStr);
 			vector<string>  Words1 = print5NearestEntries(TGBook, selectedStr);
+            
 			vector<string> Alligned = print5NearestEntries(TGBookP, selectedStr);
-			vector<string> PWords1 = print5NearestEntries(TPWords, selectedStr);
-			string PairSugg = print2OCRSugg(selectedStr, Alligned[0], ConfPmap, Dict); // map<string,int>&
-			vector<string>  Words = print1OCRNearestEntries(toslp1(selectedStr), vIBook);
-			//cout <<" here " << toDev(Words[0]) << endl;
+  
+            vector<string> PWords1 = print5NearestEntries(TPWords, selectedStr);
+
+
+            string PairSugg = print2OCRSugg(selectedStr, Alligned[0], ConfPmap, Dict); // map<string,int>&
+ 
+
+            vector<string>  Words = print1OCRNearestEntries(toslp1(selectedStr), vIBook);
+
+
+            //cout <<" here " << toDev(Words[0]) << endl;
 
 
 			// find nearest confirming to OCR Sugg from Book
